@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Capstone Project</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+    
+const { useState } = React;
+
+function App () {
+  const [data, setData] = React.useState([]); // stores array of info
+  const [view, setView] = React.useState(null); // stores view state
+  const [selection, setSelection] = useState(null); // stores selected book details
+  const [menuValue, setMenuValue] = useState(''); // stores value of drop down menu
+  const [name, setName] = useState(''); // stores user's name
+
+  const style = {
+    button: {
+      cursor: "pointer",
+			padding: "15px 15px",
+      margin: "10px",
+			fontSize: "24px",
+			outline: "none",
+			color: "#e4e9e9",
+			backgroundColor: "#9184c9",
+			border: "none",
+			borderRadius: "15px",
+			boxShadow: "0 9px #342a47",
+    },
+    header: {
+      paddingLeft: "40px",
+      fontSize: "30px"
+    },
+    title: {
+      paddingLeft: "40px",
+      fontSize: "42px"
+    },
+    div: {
+      border: "2px solid black",
+      borderRadius: "5px",
+      marginTop: "10px"
+    },
+    paragraph: {
+      paddingLeft: "10px",
+      fontSize: "20px"
+    },
+    list: {
+      fontSize: "24px"
+    },
+    dropdown: {
+      fontSize: "18px"
+    },
+  }
+
+  const fetchAvailableBooks = async () => { // fetches currently available books
+    const response = await fetch('/books?avail=true');
+    const books = await response.json();
+    setData(books);
+    setView('available');
+  };
+
+  const fetchUnavailableBooks = async () => { // fetches currently unavailable books
+    const response = await fetch('/books?avail=false');
+    const books = await response.json();
+    setData(books);
+    setView('unavailable');
+  };
+
+  const handleViewChange = (view) => { // refreshes current list fo books
+    setView(view);
+    if (view === 'available') {
+      fetchAvailableBooks();
+    } else {
+      fetchUnavailableBooks();
+    }
+    setSelection(null);
+    setMenuValue('');
+  };
+
+  const bookSelection = async (event) => { // shows book details based of dropdown menu selection
+    const bookId = event.target.value;
+
+    if (!bookId) return;
+
+    const response = await fetch(`/books/${bookId}`);
+    const bookDetails = await response.json();
+
+    setSelection(bookDetails);
+    setMenuValue(bookId);
+  };
+  
+  const buttonLabel = () => { // configures the label of the check button
+    return view === 'available' ? "Check Out" : "Check In";
+  };
+
+  const headerText = () => { // configures the text for the header
+    return view === 'available' ? "Available books" : "Checked out books";
+  }
+
+  const handleCheckOutCheckIn = async () => { // handles the check-in and check-out process
+  if (view === 'available' && !name) {
+    alert("Please enter your name.");
+    return;
+  }
+
+  if (selection) {
+    const url = view === 'available'
+      ? `/check-out/${selection.id}`
+      : `/check-in/${selection.id}`;
+
+    // Prepare the data to send
+    const data = {
+      name: view === 'available' ? name : 'N/A', // Only send name if available, otherwise 'N/A'
+      bookId: selection.id
+    };
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      if (view === 'available') {
+        fetchAvailableBooks(); // refreshs the available list after checking out
+      } else {
+        fetchUnavailableBooks(); // refreshs the unavailable list after checking in
+      }
+
+      setName('');
+      setSelection(null);
+      setMenuValue('');
+    }
+  }
+};
+  
+  const formatStatus = (avail) => {
+    return avail ? "Available" : "Checked Out";
+  };
+
+  const formatWho = (who) => {
+    return who !== "" ? who : "N/A";
+  }
+
+  const formatDate = (due) => {
+    return due !== "" ? due : "N/A";
+  }
+
+  return (
+    <div>
+      <h1 style={style.title}>Capstone Project: Library Service</h1>
+    
+      <button style={style.button} onClick={() => handleViewChange("available")}>List Available Books</button>
+      <button style={style.button} onClick={() => handleViewChange("unavailable")}>List Unavailable Books</button>
+    
+      <div style={style.div}>
+      
+        {view && <h2 style={style.header}>{headerText()}</h2>}
+      
+        <ul>
+          {data.map((book) => (
+            <li style={style.list} key={book.id}>{book.title} by {book.author}</li>
+          ))}
+        </ul>
+
+      </div>
+
+      {view && (
+        <div>
+          <br></br>
+          <p style={style.paragraph}>View details:</p>
+          <select style={style.dropdown} onChange={bookSelection} value={menuValue}>
+            <option value="" disabled>Select a book</option>
+            {data.map((book) => (
+              <option key={book.id} value={book.id}>
+                {book.title} by {book.author}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      {selection && (
+        <div>
+          <h2 style={style.header}>Book Details</h2>
+          <p style={style.paragraph}><strong>Title:</strong> {selection.title}</p>
+          <p style={style.paragraph}><strong>Author:</strong> {selection.author}</p>
+          <p style={style.paragraph}><strong>Publisher:</strong> {selection.publisher}</p>
+          <p style={style.paragraph}><strong>ISBN:</strong> {selection.isbn}</p>
+          <p style={style.paragraph}><strong>Status:</strong> {formatStatus(selection.avail)}</p>
+          <p style={style.paragraph}><strong>Checked out by:</strong> {formatWho(selection.who)}</p>
+          <p style={style.paragraph}><strong>Due date:</strong> {formatDate(selection.due)}</p>
+
+          {selection.avail && (
+            <input
+              style={style.paragraph}
+              type="text"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+            />
+          )}
+
+          {view && (
+            <button style={style.button} onClick={handleCheckOutCheckIn}>{buttonLabel()}</button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+    </script>
+  </head>
+  <body style="background-color:#e3dbea;">
+    <div id="root"></div>
+    <script type="text/babel">
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
