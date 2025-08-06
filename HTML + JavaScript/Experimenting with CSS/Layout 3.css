@@ -1,0 +1,56 @@
+* {
+  box-sizing: border-box;
+}
+
+a {
+  display: block;
+}
+
+aside {
+  clear: left;
+  display: block;
+  background-color: orchid;
+  padding: 20px;
+}
+
+footer {
+  clear: left;
+  background-color: mediumpurple;
+  padding: 5px;
+}
+
+h1, h2 {
+  padding-left: 10px;
+  color: indigo;
+}
+
+header {
+  background-color: lavenderblush;
+  padding: 5px;
+}
+
+li {
+  margin-bottom: 5;
+  content: "•";
+  padding-right: 8px;
+  color: indigo;
+}
+
+main {
+  clear: left;
+  display: block;
+  background-color: thistle;
+  padding: 15px;
+}
+
+nav {
+  clear: left;
+  overflow: hidden;
+  background-color: plum;
+  padding: 20px;
+}
+
+p {
+  width: 97%;
+  padding: 5px;
+}

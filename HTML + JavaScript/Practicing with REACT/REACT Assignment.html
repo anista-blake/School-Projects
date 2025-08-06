@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>REACT</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+	
+const { useState } = React;
+	
+function App() {
+  return (
+    <>
+      <Header />
+      <LeftColumn />
+      <RightColumn />
+      <Footer />
+    </>
+  );
+}
+
+function Header() {
+  const headerStyle = {
+    textAlign: "center",
+    padding: "20px",
+    boxSizing: "border-box",
+    backgroundColor: "#5ad1e3",
+    color: "#231f21"
+  };
+  
+  return (
+    <>
+    <header style={headerStyle}><h1>Manifest Destiny!</h1></header>
+    </>
+  );
+}
+
+function LeftColumn() {
+  const style = {
+    container: {    
+      float: "left",
+      display: "inline-block",
+      width: "50%",
+      boxSizing: "border-box",
+      backgroundColor: "#e4e9e9",
+      fontSize: "18px"
+    },
+    text: {
+      padding: "15px",
+    },
+    image: {
+      height: "120%",
+      width: "120%",
+      objectPosition: "-90px"
+    },
+  };
+
+  return (
+    <>
+    <div style={style.container}>
+      <p style={style.text}>
+        I really want this new character that is coming to Genshin Impact really soon.
+        Her name is Chasca, and I really like her gameplay because she's a badass who can ride a gun!
+        However, I don't have a guarenteed shot of getting her, and I only have enough wishes to win a 50/50.
+        I also do not spend any money on the game, so it is all up to chance on whether I can get her.
+        I do want other characters after her, so if I don't get her, then I'll have to unfortunately skip for now.
+        However, it would be pretty cool to get her since as of right now, I currently have every character of her element, which is Anemo (wind).
+      </p>
+      <img style={style.image}
+        src="https://api.hakush.in/gi/UI/UI_Gacha_AvatarImg_Chasca.webp">
+      </img>
+    </div>
+    </>
+  );
+}
+
+function RightColumn() {
+  const style = {
+    container: {
+      float: "left",
+      display: "inline-block",
+      width: "50%",
+      padding: "15px",
+      boxSizing: "border-box",
+      backgroundColor: "#5d6ea9",
+      fontSize: "18px"
+    },
+    box: {
+      display: "inline-block",
+      position: "0px 100px",
+      padding: "10px",
+    },
+    image1: {
+      float: "right",
+      position: "relative",
+      bottom: "20px"
+    },
+    image2: {
+      height: "30%",
+      width: "100%",
+    },
+  };
+
+  return (
+    <>  
+      <div style={style.container}>
+        <p>
+          I've been getting annoyed because a lot of people have been putting her down.
+          A lot of people hate her design and feel the need to "fix" it.
+          I personally have grown to love the design, especially the hat and her pants.
+          I'm a big fan of asymmetry, which is more common than not for the game's character designs.
+          They say that she won't deal a lot of damage and will only work with the same few characters that every DPS uses.
+          I'm honestly just going to go with my gut and try to wish for her.
+          At the very least, exploration will be very fun with her zooming through the air.
+        </p>
+        <div style={style.box}>
+          <p>Spam this button to wish me luck!</p>
+          <CButton />
+        </div>
+        <img style={style.image1} src="https://static.wikia.nocookie.net/gensin-impact/images/3/38/Paimon%27s_Paintings_35_Chasca_1.png/revision/latest/scale-to-width-down/250?cb=20240904041621"></img>
+        <img style={style.image2} src="https://api.hakush.in/gi/UI/UI_NameCardPic_Chasca_P.webp"></img>
+      </div> 
+    </>
+  );
+}
+
+function Footer() {
+  const style = {
+    container: {
+      textAlign: "center",
+      clear: "left",
+      padding: "15px",
+      boxSizing: "border-box",
+      backgroundColor: "#62142b",
+      color: "#baa372"
+    },
+  };
+
+  return (
+    <>
+      <div style={style.container}>
+        <footer>If I have the time correct, the update should be done at around <b>10:00 PM</b> on <b>11/19</b>.</footer>
+        <CClock />
+      </div>
+    </>
+  );
+}
+
+class CClock extends React.Component {
+  constructor(props) {
+    super(props);
+    constructor
+    this.state = {date: new Date()};
+  }
+
+  componentDidMount() {
+  this.timerID = setInterval( () => this.tick(), 1000 );
+  }
+
+  componentWillUnmount() {
+  clearInterval(this.timerID);
+  }
+
+  tick() {
+  this.setState({ date: new Date()});
+  }
+
+  render() {
+    return (<h2>It is currently {this.state.date.toLocaleTimeString()}.</h2>);
+  }
+}
+
+class CButton extends React.Component {
+  constructor(props) { 
+    super(props);
+    this.state = { 
+      isHovered: false,
+      isActive: false,
+      count: 0 
+    };
+  }
+
+  handleMouseEnter = () => {
+    this.setState({ isHovered: true });
+  };
+
+  handleMouseLeave = () => {
+    this.setState({ isHovered: false });
+  }
+
+  handleMouseDown = () => {
+    this.setState({ isActive: true });
+  }
+
+  handleMouseUp = () => {
+    this.setState({ isActive: false });
+  }
+  
+  render() { 
+    const { isHovered, isActive } = this.state;
+    
+    const style = {
+      button: {
+				cursor: "pointer",
+				padding: "15px 25px",
+				fontSize: "24px",
+				outline: "none",
+				color: "#e4e9e9",
+				backgroundColor: isActive ? "#aa3a49" : isHovered ? "#aa3a49" : "#d34a5c",
+				border: "none",
+				borderRadius: "15px",
+				boxShadow: isActive ? "0 5px #481625" : "0 9px #62142b",
+        transform: isActive ? "translateY(4px)" : "none",
+        transition: "background-color 0.3s"
+			}
+
+    }
+
+    return ( 
+      <>
+        <button 
+          style={style.button} 
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+          onMouseDown={this.handleMouseDown}
+          onMouseUp={this.handleMouseUp}
+          onClick={() => this.setState({count: this.state.count+1})} >
+          Clicked {this.state.count} times! 
+        </button></>
+    );
+  }
+}
+
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

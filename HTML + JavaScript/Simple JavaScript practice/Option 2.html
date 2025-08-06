@@ -1,0 +1,61 @@
+<!-- Code by Olivia Dixon -->
+
+<html>
+	<head>
+		<title> JavaScript Excercise </title>
+
+		<style>
+
+			#counter {
+				text-align: center;
+				font-size: 36px;
+				border:	2px solid brown;
+				background-color: lightpink;
+				border-radius: 10px;
+				padding: 20px 0px;
+				margin-top: 100px;
+				margin-left: 400px;
+				margin-right: 400px;
+			}
+
+			button {
+				cursor: pointer;
+				padding: 15px 25px;
+				font-size: 24px;
+				outline: none;
+				color: white;
+				background-color: palevioletred;
+				border: none;
+				border-radius: 15px;
+				box-shadow: 0 9px lightpink;
+			}
+
+			body {
+				background-color: rosybrown;
+				text-align: center;
+			}
+
+			button:hover {
+				background-color: #bf4a70;
+			}
+
+			button:active {
+				background-color: #bf4a70;
+				box-shadow: 0 5px #ef6f82;
+				transform: translateY(4px);
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<p id="counter"> 0 </p>
+
+		<button onclick="document.getElementById('counter').innerHTML = number++"> increment </button>
+
+		<script>
+			let number = 1;
+		</script>
+
+	</body>
+</html>
