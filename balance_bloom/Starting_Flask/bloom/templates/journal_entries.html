@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/journal_entries.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/popup.css') }}">
+    <script type="module" src="{{ url_for('static', filename='js/prev_journal_entry.js') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="journal-page">
+    <header>
+        <h1>My Journal</h1>
+        <div class="btns" id="btns"> 
+            <a href="{{url_for('journal.edit_entry')}}" class="button" id="edit_btn">+ Edit</a>
+            <a href="{{url_for('journal.create_new_entry')}}" class="button">+ New Entry</a>
+        </div>
+        
+    </header>
+
+    <!--latest entry-->
+    <div class ="latest-entry" data-mood="{{ current_mood or '' }}">
+        <div class = "PE-format">
+            <div class="btns" id="back_btn">
+                <a href="{{url_for('journal.journal')}}" class="button" id="back_Button" style="display: none;">Back</a>
+            </div>
+            <div class="selected-mood">
+                <img class="entry-mood"
+                    src="{{ url_for('static', filename='img/' + (mood_filename or 'emotionDefault.png')) }}"
+                    alt="{{ current_mood or 'mood' }}"
+                    width="128" height="128">
+            </div>
+        </div>
+        <div class="current-title"> <h2> {{ current_title or 'No Entry for today' }}</h2></div>  
+        <div class="current-date"> <p id="createdAt" data-utc="{{ current_created_at }}" > ({{ current_created_at or ' ' }}) </p> </div>
+        <div class="current-content"> <p>{{ current_content or ' ' }}</p> </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filter-bar" id="filterBar">
+        <div class="filter-item">
+            <label for="filter-from">From</label>
+            <input type="date" id="filter-from" name="filter_from">
+        </div>
+        <div class="filter-item">
+            <label for="filter-to">To</label>
+            <input type="date" id="filter-to" name="filter_to">
+        </div>
+        <div class="filter-item">
+            <label for="filter-mood">Mood</label>
+            <select id="filter-mood" name="filter_mood">
+                <option value="">Any</option>
+                <option value="great">Great</option>
+                <option value="alright">Alright</option>
+                <option value="ok">OK</option>
+                <option value="not_great">Not Great</option>
+                <option value="bad">Bad</option>
+            </select>
+        </div>
+        <div class="filter-actions">
+            <button type="button" id="filter-apply" class="button">Apply</button>
+            <button type="button" id="filter-clear" class="button">Clear</button>
+        </div>
+    </div>
+
+    <!--Previous entries, collapsible-->
+    <div class="collapsible"> 
+        <span><span class="entry-count">{{ total_entries or ' ' }}</span> Previous Entries</span>
+        <span><small data-utc="{{ latest_date}}" data-format="date_only"></small></span>
+    </div>
+    <div class="content">
+        {% for entry in all_entries %}
+            <div class = "entry-card" data-id="{{ entry['_id'] }}" data-mood="{{ entry['mood'] }}" data-date="{{ entry['created_at'][:10] }}">
+                <div class = "entry-title">
+                    {{ entry['title'] or '(Untitled)' }}
+                </div>
+                <div class = "end-contnent">
+                    <div class="entry-card-mood">
+                        <img src="{{ url_for('static', filename='img/' + entry['mood_filename']) }}"
+                             alt="{{ entry['mood'] }}"
+                             class="entry-card-mood-icon">
+                    </div>
+                    <div class = "entry-date" 
+                    data-utc="{{ entry['created_at'] }}" 
+                    data-format="date_only">
+                        
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>  
+
+{% endblock %}

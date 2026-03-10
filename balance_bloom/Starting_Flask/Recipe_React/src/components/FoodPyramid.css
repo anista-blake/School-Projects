@@ -1,0 +1,35 @@
+.food-pyramid-section {
+  margin: 50px auto;
+  text-align: center;
+  background: #fff3f7;
+  border-radius: 16px;
+  padding: 30px 20px;
+  max-width: 600px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.food-pyramid-section h2 {
+  color: #e75480;
+  margin-bottom: 10px;
+}
+
+.pyramid-subtext {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.food-pyramid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.pyramid-layer {
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  padding: 10px;
+  transition: opacity 0.5s ease;
+}

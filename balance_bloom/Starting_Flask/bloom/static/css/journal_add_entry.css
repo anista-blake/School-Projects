@@ -1,0 +1,96 @@
+header {
+    background-color: var(--navbg);
+    color: var(--text);
+}
+
+.entry-form{
+    width: 100%;
+    height: 100%;
+    color: var(--text);
+    background-color: var(--jour-entrybg);
+    border: 5px solid var(--jour-entry-bord);
+    border-radius: 10px;
+}
+.button-container{
+    display: flex;
+    gap: 10px;
+}
+/* styling for the title textbox*/
+input[type=text] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 16px;
+    box-sizing: border-box;
+    color: var(--text);
+    background-color: var(--bg);
+    border: 5px solid var(--jour-entry-bord);
+    border-radius: 10px;
+}
+/* styling for the textbox*/
+textarea {
+    width: 100%;
+    height: 400px;
+    padding: 10px;
+    box-sizing: border-box;
+    color: var(--text);
+    border: 5px solid var(--jour-entry-bord);
+    border-radius: 15px;
+    background-color: var(--bg);
+    font-size: 16px;
+
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    overflow-y: auto;
+    resize: vertical;
+}
+
+/* styling for the buttons*/    
+.button {
+    color: #ffffff;
+    background-color: var(--navbg);
+    border: 5px solid var(--jour-entry-bord);
+    width: 150px;
+    height: 50px;
+    padding: 15px 20px; 
+    font-size: 16px;
+}
+.mood-selection:hover {
+  background-color: var(--jour-shadow);
+}
+
+.mood-selection {
+  border: none;
+  background: none;
+  padding: 4px;
+  margin: 4px;
+  cursor: pointer;
+  display: inline-block;
+  width: 128px;
+  height: 128px;
+}
+
+.mood-selection img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none; /* ensures the button receives the click */
+}
+
+.mood-selection.selected {
+  border: 3px solid var(--card-border);
+  border-radius: 8px;
+  background-color: var(--bg);
+}
+.char-counter {
+    font-size: 0.85rem;
+    color: var(--text);
+    display: block;
+    margin-top: 4px;
+}
+.char-counter.exceeded {
+    color: var(--maxchar);
+}

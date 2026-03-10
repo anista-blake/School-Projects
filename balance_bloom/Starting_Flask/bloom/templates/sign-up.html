@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balance Bloom | Start your wellness journey</title>
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="/static/css/sign-up.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Indie+Flower&family=Lobster&family=Ole&family=Outfit:wght@100..900&family=Pacifico&family=Rowdies:wght@300;400;700&family=Signika:wght@300..700&display=swap');
+    </style>
+</head>
+<body>
+    <div class="sign-up-container">
+        <div class="sign-up-left">
+
+        <img class="sign-up-logo" src="/static/img/sign-up-logo.png" alt="Logo">
+        </div>
+        <div class="sign-up-right">
+            <h1 class="sign-up-title">Ready to Bloom?</h1>
+            <p class="sign-up-subtitle">
+                Create an account completely for <strong> FREE </strong> and begin your wellness journey today!
+            </p>
+            <form action="./sign-up" method="post">
+                <div>
+                    <label for="inputFirstName" class="sign-up-label">First Name<label class="asterisk"><strong>*</strong></label></label>
+                    <input id="inputFirstName" name="first_name"
+                            type="text" class="sign-up-input" required
+                            oninvalid="this.setCustomValidity('Please enter a first name.')"
+                            oninput="this.setCustomValidity('')">
+                </div>
+                <div>
+                    <label for="inputMiddleInitial" class="sign-up-label">Middle Initial</label>
+                    <input id="inputMiddleInitial" name="middle_initial"
+                            type="text" maxlength="1" pattern="[A-Za-z]" class="sign-up-input"
+                            oninvalid="this.setCustomValidity('Please enter a letter.')"
+                            oninput="this.setCustomValidity('')">
+                </div>
+                <div>
+                    <label for="inputLastName" class="sign-up-label">Last Name<label class="asterisk"><strong>*</strong></label></label>
+                    <input id="inputLastName" name="last_name"
+                            type="text" class="sign-up-input" required
+                            oninvalid="this.setCustomValidity('Please enter a last name.')"
+                            oninput="this.setCustomValidity('')">
+                </div>
+                <div>
+                    <label for="inputDOB" class="sign-up-label">Date Of Birth<label class="asterisk"><strong>*</strong></label></label>
+                    <input id="inputDOB" name="dob"
+                            type="date" class="sign-up-input" required
+                            oninvalid="this.setCustomValidity('Please enter a valid date of birth.')"
+                            oninput="this.setCustomValidity('')">
+                </div>
+                <div>
+                    <label for="inputEmail" class="sign-up-label">Email Address<label class="asterisk"><strong>*</strong></label></label>
+                    <input id="inputEmail" name="email"
+                            type="email" class="sign-up-input" required
+                            oninvalid="this.setCustomValidity('Please enter an email address.')"
+                            oninput="this.setCustomValidity('')">
+                </div>
+                <div>
+                    <label for="inputPassword" class="sign-up-label">Password<label class="asterisk"><strong>*</strong></label></label>
+                    <input id="inputPassword" name="password"
+                            type="password" pattern="[A-Za-z0-9_.@]*" class="sign-up-input" required
+                            minlength="8"
+
+                            oninvalid="
+                            if (this.validity.valueMissing) {
+                                this.setCustomValidity('Please enter a password.');
+                            } else if (this.validity.tooShort) {
+                                this.setCustomValidity('Password must be at least 8 characters.');
+                            } else if (this.validity.patternMismatch) {
+                                this.setCustomValidity('Password may only contain letters, numbers, and special characters (underscore, period, at symbol)')
+                            }"
+
+                            oninput="this.setCustomValidity('')">
+                </div>
+                <div>
+                    <button type="submit" class="sign-up-button">Create account</button>
+                </div>
+            </form>
+            <p class="sign-up-desc">
+                Already have account? <a class="sign-up-link" href="./login"> Log in. </a>
+            </p>
+            <p class="sign-up-desc">
+                Not ready to bloom? <a class="sign-up-link" href="./"> Continue as guest. </a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,260 @@
+body {
+  background-color: var(--bg);
+  margin: 0;
+  padding: 0;
+  font-family: "Pacifico", Helvetica, sans-serif;
+  font-size: 1.5em;
+}
+
+/* Create dark grey header with a white logo */
+
+header {
+  /*For the top header color */
+  height: 90px;
+  width: 100%;
+  opacity: .9;
+  margin-bottom: 10px;
+}
+
+/* BALANCE BLOOM header */
+header h1.logo {
+  margin: 0;
+  font-size: 1.7em;
+  text-transform: uppercase;
+  float: left;
+}
+
+/* When hovering over BALANCE BLOOM header */
+header h1.logo:hover {
+  text-decoration: none;
+}
+
+/* Center the body content */
+
+.container {
+  width: 1100px;
+  margin: 0 auto;
+}
+
+.container-flex {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+}
+
+/* Welcome Background color */
+
+h2 {
+  font-size: 2em;
+  margin-top: 40px;
+  text-align: center;
+  letter-spacing: -2px;
+}
+
+h3 {
+  font-size: 1.7em;
+  font-weight: 100;
+  margin-top: 30px;
+  text-align: center;
+  letter-spacing: -1px;
+}
+
+/* Display navigation links inline */
+
+.menu {
+  float: right;
+  margin-top: 8px;
+}
+
+.menu li {
+  display: inline;
+}
+
+.menu li + li {
+  margin-left: 35px;
+}
+
+/*Menu Tabs color */
+.menu li a {
+  text-decoration: none;
+}
+
+/* Contact form */
+form label {
+  font-size: 1.2em;
+  font-weight: bold;
+  display: block;
+  padding: 10px 0;
+}
+
+
+form input#name,
+form input#email,
+form input#subject {
+  width: 400px;
+  background-color: #fafafa;
+  -webkit-border-radius: 3px;  
+     -moz-border-radius: 3px;  
+          border-radius: 3px;
+  border: 1px solid #cccccc;
+  padding: 5px;
+  font-size: 1.1em;
+}
+
+form textarea#message,
+form textarea#prompt {
+  width: 500px;
+  height: 100px;
+  background-color: #fafafa;
+  -webkit-border-radius: 3px;  
+     -moz-border-radius: 3px;  
+          border-radius: 3px;
+  border: 1px solid #cccccc;
+  margin-bottom: 10px;
+  padding: 5px;
+  font-size: 1.1em;
+}
+
+form input#submit {
+  display: block;
+  -webkit-border-radius: 3px; 
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  border:1px solid #d8d8d8;
+  padding: 10px; 
+  font-weight:bold; 
+  text-align: center; 
+  color: #000000; 
+  background-color: #f4f4f4;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4f4f4), color-stop(100%, #e5e5e5));
+  background-image: -webkit-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: -moz-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: -ms-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: -o-linear-gradient(top, #f4f4f4, #e5e5e5);
+  background-image: linear-gradient(top, #f4f4f4, #e5e5e5);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f4f4f4, endColorstr=#e5e5e5);
+}
+
+form input#submit:hover{
+  cursor: pointer;
+  border:1px solid #c1c1c1; 
+  background-color: #dbdbdb;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dbdbdb), color-stop(100%, #cccccc));
+  background-image: -webkit-linear-gradient(top, #dbdbdb, #cccccc);
+  background-image: -moz-linear-gradient(top, #dbdbdb, #cccccc);
+  background-image: -ms-linear-gradient(top, #dbdbdb, #cccccc);
+  background-image: -o-linear-gradient(top, #dbdbdb, #cccccc);
+  background-image: linear-gradient(top, #dbdbdb, #cccccc);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#dbdbdb, endColorstr=#cccccc);
+}
+
+/* Message flashing */
+.flash {
+  background-color: #FBB0B0;
+  padding: 10px;
+  width: 400px;
+}
+
+/*this is for the flower animation when you click on the logo*/
+.flower {
+  position: fixed;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+  font-size: 24px;
+  opacity: 0.9;
+  animation: fall 3s linear forwards;
+  z-index: 9999;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* --- Cute Cloud Container Styles --- */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap');
+
+.cute-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 40px auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+.cute-container svg {
+  width: 100%;
+  height: 100%;
+}
+
+.cute-container path {
+  fill: url(#cloudGradient);
+  stroke: #c4dffa;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  transition: all 0.3s ease;
+}
+
+.cute-container path:hover {
+  fill: url(#hoverGradient);
+  stroke: #66ccff;
+}
+
+.container-text {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 22px;
+  color:#e55e99;
+  font-weight: bold;
+  text-align: center;
+  width: 80%;
+  line-height: 1.4;
+  pointer-events: none;
+  font-family: 'Baloo 2', cursive;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+/* Arrange the clouds in a row */
+.cloud-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 40px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+/* Override float animation settings per cloud */
+.cloud-left {
+  transform: translateY(-30px);
+  animation-duration: 5s;
+  animation-delay: 0s;
+  animation-name: float;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.cloud-right {
+  transform: translateY(10px);
+  animation-duration: 2.5s;
+  animation-delay: 1s;
+  animation-name: float;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* Optional: smaller text style inside clouds */
+.subtext {
+  font-size: 14px;
+  color: #ffafcc;
+  display: block;
+  margin-top: 5px;
+}
+

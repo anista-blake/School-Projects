@@ -1,0 +1,124 @@
+.site-header{
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+    background-color: var(--navbg);
+    color: #fff;
+    box-shadow: 0 2px 6px var(--shadow);
+}
+
+.site-header .container{
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.site-header.has-avatar .container{
+    padding-right: 40px;
+}
+
+.site-header.has-avatar .nav__options{
+    margin-right: 40px;
+}
+
+header h1.logo:hover {
+    color: var(--navhl);
+}
+
+.header-avatar{
+  position:absolute; right:16px; top:50%; transform:translateY(-50%);
+  width:36px; height:36px; border-radius:999px; overflow:hidden;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:#fff; border:2px solid rgba(255, 105, 180, 0.5); text-decoration:none;
+}
+
+.header-avatar img{
+  all:unset;
+  display:block;
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover;
+}
+
+.logo{
+    margin: 0;
+    font-size: clamp(1.3rem, 2.8vw, 2.4rem);
+    letter-spacing: .02em;
+    text-transform: uppercase;
+}
+
+.site-header nav{
+    position: relative;
+    margin-left: auto;
+}
+
+.menu{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu > li > a {
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 1.05rem;
+}
+
+.menu > li > a:hover{
+    background: rgba(255,255,255,.12);
+}
+
+.nav__options{
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.nav__options:hover,
+.nav__options[aria-expanded="true"]{
+    background: rgba(255,255,255,.12);
+}
+
+.nav__menu{
+    display: none;
+    position: absolute;
+    right: 0;                    
+    top: calc(100% + 6px);
+    min-width: 220px;
+    background: var(--bg);
+    color: var(--nav-text);
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.18);
+}
+
+.nav__menu.open{
+    display: block;
+}
+
+.nav__menu a{
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: inherit;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.nav__menu a:hover{
+    background: var(--nav-hover)
+}

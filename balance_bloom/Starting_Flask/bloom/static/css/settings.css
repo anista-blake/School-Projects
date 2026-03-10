@@ -1,0 +1,103 @@
+/* General page styling */
+body {
+    background-color: var(--bg);
+    font-family: "Pacifico", Helvetica, sans-serif;
+    color: var(--otherText);
+    padding: 2rem;
+    text-align: center;
+}
+
+.logo {
+    font-size: 2rem;
+    color: var(--card);
+    margin: 0;
+}
+
+/* Form styling */
+.settings-form {
+    background-color: var(--settingsbg);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 15px var(--shadow);
+    max-width: 600px;
+    margin: 2rem auto;
+    text-align: left;
+}
+
+/* Input fields */
+input[type="text"],
+input[type="email"],
+input[type="password"]{
+    width: 95%;
+    padding: 0.6rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+    border: 1px solid var(--settborder);
+    border-radius: 8px;
+    background-color: var(--bg);
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    width: 1.15em;
+    height: 1.15em;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    cursor: pointer;
+    vertical-align: middle;
+
+    background-color: var(--bg);
+    border: 1px solid var(--settborder);
+    margin-right: 0.5rem;
+}
+
+input[type="checkbox"]::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    width: 0.25em;
+    height: 0.6em;
+    border: solid var(--text); /* Checkmark color */
+    border-width: 0 3px 3px 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+}
+
+input[type="checkbox"]:checked::after {
+    opacity: 1;
+}
+
+/* Labels */
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--card);
+}
+
+form :is(input, select, textarea) {
+    background-color: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--settborder);
+}
+
+/* Button styling */
+button {
+    background-color: var(--card);
+    color: white;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    filter: brightness(1.2);
+}

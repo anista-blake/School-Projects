@@ -1,0 +1,98 @@
+header {
+    background-color: var(--navbg);
+}
+
+/* Style the FAQ header text to match site branding */
+header h1 {
+    font-size: 2.2em;
+    color: #ffffff;
+    text-align: center;
+    line-height: 60px;
+    text-transform: uppercase;
+}
+
+/* Container for main FAQ content */
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: var(--bg);
+    border-radius: 6px;
+    box-shadow: 0 4px 10px var(--shadow);
+}
+
+/* Section title */
+#faq-list h2 {
+    font-size: 1.8em;
+    color: var(--card-border);
+    margin-bottom: 20px;
+    text-align: left;
+    border-left: 6px solid var(--card-border);
+    padding-left: 12px;
+}
+
+/* FAQ structure */
+dl {
+    margin-top: 10px;
+}
+
+dt {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: 25px;
+    color: var(--card);
+    padding-left: 20px;
+    position: relative;
+}
+
+dt::before {
+    content: "❯";
+    position: absolute;
+    left: 0;
+    color: var(--card);
+    font-size: 1em;
+    top: 2px;
+}
+
+dd {
+    margin-left: 20px;
+    margin-top: 8px;
+    font-size: 1.05em;
+    color: var(--nav-text);
+    line-height: 1.5;
+}
+
+/* Links inside FAQ answers */
+dd a {
+    color: var(--link);
+    text-decoration: underline;
+}
+
+dd a:hover {
+    color: var(--click);
+}
+
+/* Responsive: Stack and shrink text sizes on smaller screens */
+@media (max-width: 768px) {
+    main {
+        padding: 20px 15px;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+        line-height: 1.4em;
+        padding: 10px 0;
+    }
+
+    #faq-list h2 {
+        font-size: 1.5em;
+    }
+
+    dt {
+        font-size: 1.1em;
+    }
+
+    dd {
+        font-size: 1em;
+    }
+}

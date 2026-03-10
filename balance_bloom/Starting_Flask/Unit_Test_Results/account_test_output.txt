@@ -1,0 +1,76 @@
+===================================== test session starts ======================================
+platform win32 -- Python 3.13.7, pytest-9.0.1, pluggy-1.6.0
+rootdir: C:\Users\hfg17\Documents\cs3398\balance_bloom
+plugins: tap-3.5
+collected 4 items
+
+Starting_Flask\tests\account_test\test_customization.py 
+------------------------------------------------------------
+⚙️  Running: test_customization.py
+# Subtest: load theme page
+# Page loaded successfully
+ok 1 - Page loaded with initial data-theme=light
+  ---
+  duration_ms: 106.843
+  type: 'test'
+  ...
+# Subtest: simulate countdown to toggle theme
+# Countdown: 3 seconds remaining...
+# Countdown: 2 seconds remaining...
+# Countdown: 1 seconds remaining...
+ok 2 - data-theme toggled from light to dark
+  ---
+  duration_ms: 300.971
+  type: 'test'
+  ...
+# Subtest: simulate countdown to toggle theme back
+# Countdown: 3 seconds remaining...
+# Countdown: 2 seconds remaining...
+# Countdown: 1 seconds remaining...
+ok 3 - data-theme toggled back to light
+  ---
+  duration_ms: 301.237
+  type: 'test'
+  ...
+✅ Passed: All theme toggle tests
+.
+Starting_Flask\tests\account_test\test_email.py ------------------------------------------------------------
+⚙️  Running: test_email.py
+[INFO] Loaded .env from C:\Users\hfg17\Documents\cs3398\balance_bloom\Starting_Flask\tests\account_test\.env
+[INFO] GMAIL_USER = help.balancebloom@gmail.com
+[INFO] GMAIL_APP_PASSWORD set? True
+[INFO] Sending to: omgjustacceptmyusername@gmail.com
+ok 1 - load environment variables & check credentials
+  ---
+  duration_ms: 17.884
+  type: 'test'
+  ...
+ok 2 - prepare email message
+  ---
+  duration_ms: 232.075
+  type: 'test'
+  ...
+[INFO] Connecting to smtp.gmail.com:587 ...
+[INFO] STARTTLS established.
+[INFO] Logged in as help.balancebloom@gmail.com
+[SUCCESS] Sent to: omgjustacceptmyusername@gmail.com
+ok 3 - send email via SMTP
+  ---
+  duration_ms: 3044.996
+  type: 'test'
+  ...
+✅ Passed: All email test steps
+.
+Starting_Flask\tests\account_test\test_pfp.py .
+------------------------------------------------------------
+⚙️  Running: test_account_update_avatar
+[INFO] Setting session for test_user_id ...
+[INFO] Session set successfully
+[INFO] Preparing fake avatar file ...
+[INFO] Fake file ready
+[INFO] Sending POST request to /account/avatar ...
+[INFO] Response received: status 200
+✅ Passed: Avatar upload works correctly for uid='test_user_id' → returned status 200
+.
+
+====================================== 4 passed in 4.44s =======================================

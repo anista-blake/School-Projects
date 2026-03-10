@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="jumbo">
+  <div class="cloud-row">
+
+  <div class="cute-container cloud-left">
+    <svg viewBox="0 0 105 105" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Cloud Gradient Fill -->
+        <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f0faff" />
+          <stop offset="100%" stop-color="#d6ecff" />
+        </linearGradient>
+        <linearGradient id="hoverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#e0f7ff" />
+          <stop offset="100%" stop-color="#cceeff" />
+        </linearGradient>
+      </defs>
+
+      <!-- Cloud Shape Path -->
+      <path d="
+        M 25,60 
+        a 20,20 1 0,0 0,40 
+        h 50 
+        a 20,20 1 0,0 0,-40 
+        a 10,10 1 0,0 -15,-10 
+        a 15,15 1 0,0 -35,10  
+        z" />
+    </svg>
+
+    <div class="container-text">
+      Welcome to Balance Bloom!
+    </div>
+  </div>
+    
+    <div class="cute-container cloud-right">
+    <svg viewBox="0 0 105 105" xmlns="http://www.w3.org/2000/svg">
+      <path d="
+        M 25,60 
+        a 20,20 1 0,0 0,40 
+        h 50 
+        a 20,20 1 0,0 0,-40 
+        a 10,10 1 0,0 -15,-10 
+        a 15,15 1 0,0 -35,10  
+        z" />
+    </svg>
+      <div class="container-text">
+        <span class="subtext">This is our homepage for our health and wellness webapp!</span>
+      
+    </div>
+
+  </div>
+</div>
+</div>
+
+<img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" style="display: block; margin: 0 auto;">
+
+
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{# bloom/templates/s_preferences.html #}
+<div id="preferences-panel">
+<div class="form-row">
+    <label for="theme-select" class="form-label">
+      <span class="icon" aria-hidden="true">
+        <!-- star SVG -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" focusable="false" role="img" aria-hidden="true">
+          <path d="M12 2.5l2.3 4.7 5.2.8-3.8 3.7.9 5.1L12 15.9l-4.6 2.4.9-5.1L4.5 8l5.2-.8L12 2.5z"/>
+        </svg>
+      </span>
+      <span class="label-text">Theme preferences</span>
+    </label>
+
+    <select id="theme-select" name="pref_theme">
+    <option value="system" {% if current_theme == 'system' %}selected{% endif %}>Default</option>
+    <option value="light" {% if current_theme == 'light' %}selected{% endif %}>Light</option>
+    <option value="dark" {% if current_theme == 'dark' %}selected{% endif %}>Dark</option>
+    </select>
+</div>
+</div>

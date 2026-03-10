@@ -1,0 +1,98 @@
+<div id="messagePopup" class="popup" aria-hidden="true" role="dialog" aria-labelledby="messagePopupTitle">
+  <div class="overlay" data-close></div>
+
+  <div class="popup-content" role="document" style="--design-w:640;">
+    <header class="popup-header">
+      <h3 id="messagePopupTitle">Message</h3>
+    </header>
+
+    <div class="popup-body">
+      <h4 id="messagePopupText"></h4>
+    </div>
+
+    <footer class="popup-footer">
+      <button class="cancel-btn" data-close>Close</button>
+    </footer>
+  </div>
+</div>
+
+{% set _flashes = get_flashed_messages(with_categories=True) %}
+{% if _flashes %}
+<script id="flashes-json" type="application/json">{{ _flashes | tojson }}</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    const IGNORED_CATEGORIES = new Set(["debug"]);
+    const IGNORED_MESSAGES = new Set([
+      'New entry created.',
+      'You are not logged in',
+      "You've been logged out."
+    ]);
+
+    const node = document.getElementById('flashes-json');
+    console.log('flash-glue running, flashes-json:', node?.textContent);
+    if (!node) return;
+
+    const flashes = JSON.parse(node.textContent || '[]');
+    if (!Array.isArray(flashes) || flashes.length === 0) return;
+
+    // Filter flashes first (category + exact-message checks)
+    const allowedFlashes = flashes.filter(([category = '', message = '']) => {
+      const cat = String(category || '');
+      const msg = String(message || '').trim();
+      if (!msg) return false;
+      if (IGNORED_CATEGORIES.has(cat)) return false;
+      if (IGNORED_MESSAGES.has(msg)) return false;
+      return true;
+    });
+
+    if (allowedFlashes.length === 0) return;
+
+    // Use the first allowed flash (not flashes[0])
+    const [category, message] = allowedFlashes[0] || ['',''];
+    const catToTitle = { error:'Error', warning:'Warning', info:'Info', success:'Success', '':'Message' };
+    const title = catToTitle[category] || 'Message';
+
+    const timeoutMs = 2000;
+    const intervalMs = 50;
+    let waited = 0;
+
+    const tryShow = () => {
+      const msgPopup = window.AppPopups && window.AppPopups.get && window.AppPopups.get('messagePopup');
+      if (msgPopup && typeof window.showMessage === 'function') {
+        const popupEl = document.getElementById('messagePopup');
+        if (popupEl) {
+          popupEl.classList.remove('popup--error','popup--warning','popup--success','popup--info');
+          popupEl.classList.add('popup--' + (category || 'info'));
+        }
+
+        try {
+          window.showMessage(message, title);
+        } catch (err) {
+          console.error('showMessage threw', err);
+        }
+
+        if (category !== 'error') {
+          setTimeout(() => {
+            const p = window.AppPopups && window.AppPopups.get && window.AppPopups.get('messagePopup');
+            if (p && typeof p.close === 'function') p.close();
+          }, 2000);
+        }
+        return;
+      }
+
+      waited += intervalMs;
+      if (waited < timeoutMs) {
+        setTimeout(tryShow, intervalMs);
+      } else {
+        console.warn('Timed out waiting for #messagePopup registration; flash not shown:', message);
+      }
+    };
+
+    tryShow();
+  } catch (err) {
+    console.error('Flash popup error', err);
+  }
+});
+</script>
+{% endif %}

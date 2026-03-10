@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- Need to adjust CSS so it is compatible with dark mode
+        <meta name="color-scheme" content="light dark">
+        -->
+        <title>Cycle Tracker</title>
+        <script src="https://kit.fontawesome.com/0e1f7d564f.js" crossorigin="anonymous"></script>
+        <script type="module" defer src="../static/js/ct_ui.js"></script>
+        <script>
+            // API endpoint for the client logging helper
+            window.CYCLE_ENTRY_API = "{{ url_for('cycle.cycle_entry') }}";
+        </script>
+
+        <link rel="stylesheet" href="../static/css/ct_stylesheet.css">
+    </head>
+    <body>
+        <div class="outer_container">
+            <h1 class="title">Menstrual Cycle Tracker</h1>
+            <div class="inner_container">
+                <div class="innermost_container">
+                    <div class="calendar">
+                        <div class="calendar_inner">
+                            <div class="calendar_controls">
+                                <div class="calendar_headings">
+                                    <i class="fa-solid fa-arrow-left" id="prev"></i>
+                                    <h2 class="month_year"></h2>
+                                    <i class="fa-solid fa-arrow-right" id="next"></i>
+                                </div>
+                                <div class="current_datetime">
+                                    <p class="daytxt">Today</p>
+                                    <p class="datetxt"></p>
+                                </div>
+                                <div class="days_date">
+                                    <ul class="days">
+                                    <li>Sun</li>
+                                    <li>Mon</li>
+                                    <li>Tue</li>
+                                    <li>Wed</li>
+                                    <li>Thu</li>
+                                    <li>Fri</li>
+                                    <li>Sat</li>
+                                    </ul>
+                                    <ul class="dates">
+                                    <li></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="legend">
+                        <fieldset>
+                            <legend><u>Legend</u></legend>
+                            <ul>
+                                <li><span class="color-box today"></span>Today</li>
+                                <li><span class="color-box period"></span>Period</li>
+                                <li><span class="color-box future"></span>Future Periods</li>
+                                <li><span class="color-box ovulation"></span>Ovulation</li>
+                                <li><span class="color-box fertile"></span>Fertile</li>
+                            </ul>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="below">
+                    <h3 class="projected_date">Projected start date is --</h3>
+                    <h2 class="days_countdown"># days left</h2>
+                    <div class="toggles">
+                        <p>Start</p>
+                        <label class="switch">
+                            <input type="checkbox" id="start">
+                            <span class="slider round"></span>
+                        </label>
+
+                        <p>Stop</p>
+                        <label class="switch">
+                            <input type="checkbox" id="stop">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <button class="clear-button" onClick="window.location.reload();">Clear All</button>
+                </div>
+            </div>
+        </div>
+    </body>
+
+{% endblock %}

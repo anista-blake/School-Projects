@@ -1,0 +1,18 @@
+{
+  "name": "journal_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "journal_filtering.test.js",
+  "directories": {
+    "test": "tests"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jsdom": "^24.0.0"
+  }
+}

@@ -1,0 +1,206 @@
+﻿Unit Test Plan 
+
+JADE: Settings, Utils, and Login Pytests 
+SCRUM-150: Testing Plan for settings routes 
+Feature: The account settings view and related handlers (GET /settings and POST /settings)  that show and update user profile, password, 
+email, notification preferences, and  cycle/period data. 
+Unit test targets: 
+- Authentication guard: verify the route redirects when no user is logged in or when the user  record cannot be found. 
+- GET settings page: verify route returns 200 for a valid logged-in user and renders expected  page content. 
+- Email uniqueness check: verify POST rejects an already-used email and redirects with a  flash. 
+- Password change flow: verify POST rejects incorrect current password and accepts  correct current password, updating stored hash. 
+- Profile update flow: verify display_name and notification flags are persisted via the users  collection update. 
+- Period/cycle handling: verify cycle_entries find_one and update_one/upsert behavior  when period toggles or cycle fields change. 
+- DB interaction: verify update queries (query and $set contents) and upsert flags sent to  collections. 
+Flash and redirect behavior: verify routes flash expected messages and issue appropriate  redirects (login/settings/home). 
+Tests operate at the unit level using monkeypatch to isolate the view logic and avoid  external side effects:
+Use fixtures in tests/conftest.py (app, client, db) so the Flask app and mongomock DB are  available. 
+Monkeypatch helpers imported by the view (current_user_id, get_user_by_id,  get_user_by_email, check_password_hash, generate_password_hash) 
+to control control flow branches. Replace DB collection factories with lightweight fake/nop coll objects that record calls  (update_one, find_one) 
+to assert queries and update payloads. 
+Use client to exercise routes and check responses, Location headers, and session flashes  when appropriate. 
+Test Implementation Notes 
+- Keep each test focused on one behavior (authorization, validation, DB update, or  redirect). 
+- Make assertions on: 
+ - Response status and redirect Location substring (e.g., "login" or "settings"). 
+ - Recorded DB query and update payload structure (e.g., users_calls["query"],  users_calls["update"]["$set"]). 
+ - Whether cycle_entries.update_one was called with upsert=True where expected. 
+ - Session changes and flashed messages when necessary (use  
+client.session_transaction()). 
+ - Use small helper functions to reduce repetition (e.g.,  
+setup_logged_in_user(monkeypatch, user)). 
+Assertions and Coverage Expectations 
+- Each test asserts a single logical outcome to make failures easy to diagnose. 
+- Cover both success and failure branches: missing login, missing user, invalid input,  conflict (email taken), invalid password, and successful update with cycle upsert. 
+- Ensure tests are deterministic and fast by avoiding network or real DB I/O (use  mongomock and monkeypatched SMTP/IO if needed). 
+SCRUM-150: Testing Plan for util.py
+Feature: The utility helpers used across the app (session helpers, DB lookups, token  helpers, time helpers, email sending, and filename/extension validation). 
+Unit test targets: 
+- current_user_id: verify correct ObjectId conversion and safe failure when missing or  invalid. 
+- get_user_by_id / get_user_by_email: verify lookup behavior for ObjectId and string inputs,  and empty/invalid inputs. 
+- humanize: verify formatting and handling of None values. 
+- CSRF helpers (get_csrf_token, check_csrf): verify token generation, persistence in  session, and validation logic. 
+- Token functions (_make_reset_token, _hash_token) and _now_utc: verify uniqueness,  deterministic hashing, and timezone-awareness. 
+- send_real_email: monkeypatch SMTP to assert correct usage and environment handling  (success and failure paths). 
+- allowed: verify extension checks and use of current_app.config override. 
+Tests operate at the unit level using mongomock and Flask test/request contexts to isolate  behavior without external side effects. 
+Test Implementation Notes 
+- Use fixtures in tests/conftest.py (app, client, db) to provide a test Flask app and a  mongomock-backed DB. 
+- Use app.test_request_context and client.session_transaction to exercise session- and  request-dependent functions. 
+- Monkeypatch standard library modules (smtplib, os.environ) are used to avoid network  I/O and to simulate environment conditions. 
+- Normalize datetime comparisons to handle datetimes for portability across  environments. 
+Assertions and Coverage Expectations 
+- Each unit test asserts one focused behavior (one logical condition) to keep failures easy  to interpret.
+- Tests assert return values and side effects (e.g., session changes, DB updates) where  applicable. 
+- Aim to cover both success and failure branches for each helper function (e.g., missing  env vars, invalid input, empty values). 
+SCRUM-150: Testing Plan for login routes 
+Feature: The login view and related authentication helpers (GET /login and POST /login)  handling user credential validation, 
+session creation, last-login updates, and flash/redirect  behavior. 
+Unit test targets: 
+- GET /login page: verify the page renders successfully for unauthenticated requests. 
+- Missing fields validation: verify POST without email or password flashes an appropriate  error and redirects. 
+- Nonexistent user: verify POST with an unknown email flashes an account-not-found  message and redirects. 
+- Missing password hash: verify POST for a user without a stored password_hash flashes an  instructive message and redirects. 
+- Incorrect password: verify POST with wrong password flashes an invalid-credentials  message and redirects. 
+- Successful login: verify POST with valid credentials sets session['user_id'], flashes  success, and updates last_login_at in the users collection (timestamp is recent, UTC aware or normalized). 
+- Flash handling: assert flashes are produced (use session inspection via  client.session_transaction when follow_redirects=False). 
+- DB interactions: verify user lookup by email and last_login_at update are performed  against the users collection. 
+Tests operate at the unit level using mongomock and Flask test/request contexts to isolate  behavior without external side effects. 
+Test Implementation Notes
+- Use fixtures in tests/conftest.py (app, client, db) to provide the Flask app and  mongomock-backed DB. 
+- Create test user documents with deterministic password_hash values using  werkzeug.security.generate_password_hash and insert directly into the test DB. 
+- Post with follow_redirects=False and inspect session['_flashes'] via  client.session_transaction() to assert flashed messages reliably. 
+- For time assertions, normalize datetimes returned by the DB to UTC-aware before  comparing to datetime.now(timezone.utc). 
+- Keep each test focused on one behavior; use helpers (make_user_doc,  get_flash_messages_from_session) to reduce duplication. 
+- Avoid network I/O and external dependencies; tests should only use the fake mongomock  DB and in-process Flask contexts. 
+Assertions and Coverage Expectations 
+- Each test asserts a single logical outcome to simplify failure diagnosis (status code, flash content, session entry, or DB update). 
+- Cover both negative and positive branches for the login flow. 
+- Ensure tests are deterministic and fast so they are suitable for CI runs. 
+
+
+OLIVIA: For running unit tests for the period tracker, I will use Node.js’s test runner to test  my ct_fertility and ct_helpers files. 
+Specifically, I want to see if my sortDates function (in  ct_helpers) returns a properly sorted array of dates, and if calcOvulationDays 
+and calcFertileWindow (both in ct_fertility) return the correct dates based on inputs I’ve already  made the necessary calculations for. 
+If needed to be, I will refactor my functions so that  they are able to be unit tested in their entirety, without relying on outside variables and  methods.
+
+
+Team Member: Prakriti Gautam 
+1. Unit Testing Plan 
+Planned Tests 
+( unit test file - 
+/Users/prakritigautam/Desktop/CS3398/balance_bloom/Starting_Flask/Recipe_React/src /App.test.js) 
+SCRUM - https://cs3398-jawa-fall.atlassian.net/browse/SCRUM-155 
+Test 1: Initial Load of Popular Recipes 
+Feature Tested: Rendering of the popular recipes list on component mount. Code: App.js → Popular recipes rendering using RecommendedRecipes. 
+State / Return Objects: recipes, favorites. 
+Expected Outcome: All popular recipes are displayed on initial load. 
+Test 2: Favorite Toggle Logic 
+Feature Tested: Toggling a recipe as favorite. 
+Code: App.js → toggleFavorite() method. 
+State / Return Objects: favorites array; DOM update of FavoritesList. Expected Outcome: Adding/removing a recipe updates the FavoritesList correctly. 
+Test 3: Loading Indicator During Search 
+Feature Tested: Loading indicator during recipe search API call. 
+Code: App.js → searchRecipes() function. 
+State / Return Objects: loading, hasSearched, recipes. 
+Expected Outcome: Displays “ Loading recipes...” while waiting for API.
+Test 4: Search Results Display 
+Feature Tested: Search API returns results and replaces popular list. 
+Code: App.js → searchRecipes(). 
+State / Return Objects: recipes, hasSearched. 
+Expected Outcome: Search results are displayed, popular recipes list is hidden. 
+JSON summary : 
+{ 
+ "numFailedTestSuites": 0, 
+ "numFailedTests": 0, 
+ "numPassedTestSuites": 1, 
+ "numPassedTests": 4, 
+ "numTotalTestSuites": 1, 
+ "numTotalTests": 4, 
+ "success": true 
+} 
+RESULT in this file - 
+/Users/prakritigautam/Desktop/CS3398/balance_bloom/Starting_Flask/Recipe_React/uni t-test-results.json 
+Coverage report - 
+/Users/prakritigautam/Desktop/CS3398/balance_bloom/Starting_Flask/Recipe_React/cov erage
+
+
+NINA: SCRUM-152 
+Feature: Past Journal entries 
+- Test file name: journal_past_entries_logic.py 
+Technology: pytest, pytest-html 
+Location of test file: Starting_Flask/tests/journal_test/ journal_past_entries_logic.py 
+What is tested: The journal_helpers.py specifically the PastEntriesLogic class. This unit
+test tests logic layer journal_helpers.py with the database layer and that it applies  buissness logic correctly 
+- Test file name: journal_past_entries_route.py 
+Technology: pytest, pytest-html 
+Location of test file: Starting_Flask/tests/journal_test/ journal_past_entries_route.py 
+What is tested: The get_entry() route from the journal_routes.py file. This unit test is meant to validate requests inputs, 
+format and that the logic layer is called correctly. 
+- Test file name: journal_filtering.test.js 
+Technology: node.js test runner 
+Location of test file: Starting_Flask/tests/journal_test/ journal_filtering.test.js 
+What is tested: The FilteringEntries() that mj_filtering.js exports. This function holds the majority of the actual 
+functionality for the filtering of the past entries feature. The unit test is to test if the filtering works by date, 
+by mood, if you filter for both, and that the code works for edge cases.  
+
+
+JACKIE MEDRANO: 
+SCRUM-161: Correct current unit tests for adding & deleting journal entries Testing Plan:
+Starting_Flask/tests/journal_test/test_journal_logic.py 
+Purpose of testing: The purpose of these unit tests is to verify that our Journal Logic class is  behaving correctly, 
+handling all interactions properly with create_entry() and  delete_daily_entry() 
+Technologies used: 
+Pytest – unit testing framework 
+Pytest-html – Automatically generated a HTML report for our unit tests 
+Unittest.mock.MagicMock – mocks interactions such as external dependencies aka our  MongoDB 
+Component's location: 
+bloom/journal/journal_helpers.py 
+This is where our class JournalLogic is located; it provides application logic for journal  
+entries and interacts with our MongoDB through dependency injection. 
+Methods Tested: 
+Create_entry(user_id, title, content, mood) 
+Responsiblities include: check if user has already created an entry today, validate the title  
+length, validate the content length, and create a timestamp with all the journals contents  (title, content, mood, created_at, last_edit, user_id). 
+All saved in our database insertion  using db.create_entry(). 
+Delete_daily_entry(user_id) 
+Responsibilties include calling database delete_daily_entry(user_id) to remove todays  entry. 
+Test Cases: 
+Test Case 1 – test_create_entry_sucess 
+Verify that a new journal entry is successfully created when no entry exists for the day. Mock setup: get_daily_entry() return none. 
+• Validates title, content, mood aare stored correctly.  
+• Create_at and last_edit are date /time objects 
+• Db.create_entry() is called at least once and contains correct keys.
+Test Case 2 – test_create_entry_duplicate_raises 
+Ensure that attempting to create duplicate will result in a value error. Mock setup: get_daily_entry() returns an existing entry 
+• Validate error message contains “entry for today already exists” • No call to db.create_entry() 
+Test Case 3 – test_create_entry_title_too_long 
+Ensure that the title more than 100 is rejected. 
+Mock setup: get_daily_entry() returns nothing 
+• Validates and raises ValueError with message saying character limit exceeded • No DB here 
+Test Case 4 – test_create_entry_content_too_long 
+Ensure that the content more than 100 is rejected. 
+Mock setup: get_daily_entry() returns nothing 
+• Validates and raises ValueError with message saying character limit exceeded • No DB here 
+Test Case 5 – test_delete_daily_entry_calls_db 
+Verify that deleting a journal entry triggers the appropriate DB call • Validates db.delete_daily_entry(user_id) is called once. 
+Test Unit Tests: 
+Pytest test_journal_logic.py 
+RESULTS: Starting_Flask/Unit_Test_Results/test_journal_logic_report.html
+
+
+Gloria 
+SCRUM-154: Create Unit Test for sending and receiving emails, Create Unit test for  Website Customization, Create Unit Test for Account pfp stuff. 
+WHAT IS BEING TESTED - The features and code I will be unit testing on are the account  profile picture, the website's light and dark mode, and sending emails to the user. 
+HOW WILL IT BE TESTED - I will use pytest. 
+FILE LOCATIONS: 
+Account profile picture – Starting_Flask/tests/account_test/ test_pfp.py Website L/D mode – Starting_Flask/tests/account_test/ test_customization.py & Starting_Flask/tests/account_test/templates/testCustomization.html Sending emails – Starting_Flask/tests/account_test/ test_email.py 
+Unit Test 1: Can the user upload a profile picture? 
+Testing “update_avatar()” from the ("/account/avatar") route in account_routes.py 
+Responsibility – allow the user to upload a picture formatted with .png,.jpeg,.jpg or .gif and  save it to the players database. 
+Unit Test 2: Can the user receive emails after a password or email reset request? 
+Testing all smtp...(smtp.login(user, pw), smtp.send_message(msg)) from the account)routes.py 
+Responsibility – send an email from the .env email. To the “fake” user and verify it was sent and received. 
+Unit Test 3: Does the website change to light and dark automatically? Testing (data-theme dark and light) from layout.css & the systems os 
+Responsibility – Change the website pages from light to dark if the system os is in dark &  change the website from dark to light if the system os is in light. 
+RESULTS: Starting_Flask/Unit_Test_Results/account_output_test.txt

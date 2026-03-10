@@ -1,0 +1,305 @@
+.popup {
+    --bg:white;
+    --text:#000000;
+    --otherText:#555555;
+    --pcard:var(--card);
+    --pcard-border:var(--card-border);
+    --shadow:rgba(0, 0, 0, 0.25);
+    --input-border:#dddddd;
+    --pclick:var(--click);
+    --plink:var(--link);
+    --read-only:#b9b9b9;
+    --read-only-text:rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-color-scheme: dark){
+    .popup{
+    --bg:#292929;
+    --text:#ffffff;
+    --otherText:#b7b6b6;
+    --pcard:var(--card);
+    --pcard-border:var(--card-border);
+    --shadow:rgba(255, 255, 255, 0.25);
+    --input-border:#3a4150;
+    --pclick:var(--click);
+    --plink:var(--link);
+    --read-only:#5a5a5a;
+    --read-only-text:rgba(255, 255, 255, 0.5);
+    }
+}
+
+.popup{
+    position: fixed;
+    top: 100vh;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    transition: top 0ms ease-in-out 300ms;
+}
+
+.popup .overlay{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 100ms ease-in-out 200ms;
+}
+
+.popup .popup-content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.15);
+    width: 95%;
+    max-width: 450px;
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background: var(--bg);
+    color: var(--text);
+    padding: 15px;
+    border-radius: 20px;
+    opacity: 0;
+    box-shadow: 0px 0px 5px 5px var(--shadow);
+    transition: all 300ms ease-in-out;
+}
+
+.popup .popup-content h2{
+    margin: 8px 0px;
+    font-size: 25px;
+    color: #ffffff;
+    text-align: center;
+}
+
+.popup .popup-content h2-account{
+    margin: 8px 0px;
+    font-family: "Indie Flower", cursive;
+    font-size: 25px;
+    color: var(--text);
+    text-align: center;
+}
+
+.popup .popup-content form{
+    max-width: none;
+    margin: 0 auto;
+    flex: 1 1 auto;
+    overflow: auto;
+    padding-right: 1px;
+}
+
+.hidden-inline{
+    display: none;
+}
+
+.visible-inline{
+    display: inline-block;
+}
+
+.popup .popup-content :is(input, select, textarea){
+    width: 100%;
+    box-sizing: border-box;
+    max-width: none;
+    padding: 8px 12px;
+    border: 2px solid #dddddd;
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,.04);
+    transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    font: inherit;
+    line-height: 1.1;
+}
+
+.popup .popup-content :is(input, select, textarea):focus{
+    border-color: var(--pcard);
+    background: var(--bg);
+    box-shadow: 0 0 0 3px rgba(156,12,84,.12), inset 0 2px 10px rgba(0,0,0,.06);
+}
+
+.popup .popup-content :is(input, select, textarea):read-only{
+    border-color: var(--shadow);
+    background: var(--read-only);
+    color: var(--read-only-text);
+}
+
+.popup .popup-content.login-card{
+    padding: 0;
+    max-width: 450px;
+    max-height: 70vh;
+    overflow: hidden;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.login-body{
+    background: var(--bg);
+    max-height: calc(70vh - 180px);
+    overflow: auto;
+    padding: 16px 14px 16px 16px;
+    scrollbar-gutter: stable;
+    scrollbar-color: var(--otherText) var(--bg);
+}
+
+.login-body::-webkit-scrollbar-track{
+    background: var(--bg);
+    border-radius: 10px;
+}
+
+.popup .popup-content .field{
+    gap: 6px;
+    width: 100%;
+}
+
+.popup .popup-content .field > label{
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.login-brand{
+    background: var(--pcard);
+    border-top: 4px solid var(--pcard-border);
+    color: var(--text);
+    text-align: center;
+    padding: 6px 10px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 1px 0 rgba(0,0,0,.04) inset;
+}
+
+.login-brand__logo{
+    width: 140px;
+    max-width: 140px;
+    height: auto;
+    display: block;
+    margin: 4px auto 6px auto;
+}
+
+.login-brand__title{
+    margin: 0 0 4px;
+    font-size: 1.6em;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    line-height: 1.15;
+    color: #fff;
+}
+
+.login-brand__subtitle{
+    margin: 0;
+    font-size: 1em;
+    font-family: "Signika", sans-serif;
+    font-weight: 400;
+    color: #fff;
+}
+
+.login-label{
+    display: block;
+    margin-top: 6px;
+    margin-bottom: 2px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    font-family: "Indie Flower", cursive;
+}
+
+.login-input{
+    width: 100%;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    font-size: 1em;
+    outline: none;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    background: var(--bg);
+}
+
+.login-input:focus{
+    border-color: var(--pcard-border);
+}
+
+.popup .popup-content .controls:has(:only-child) {
+    justify-content: flex-end;
+}
+
+.popup .popup-content .controls{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0px 0px;
+}
+
+.popup .popup-content .controls button{
+    padding: 8px 18px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.popup .popup-content .controls .cancel-btn{
+    background: transparent;
+    color: #ed3232;
+    border: none;
+    cursor: pointer;
+}
+
+.popup .popup-content .controls .save-btn{
+    background: linear-gradient(135deg, var(--popup-grad), var(--popup-grad2));
+    color: #ffffff;
+    font-weight: 700;
+    border: none;
+    border-radius: 999px;
+    padding: 8px 18px;
+    box-shadow: 0 6px 16px var(--pop-save-shad);
+    cursor: pointer;
+}
+
+.popup .popup-content .verify-btn{
+    background: linear-gradient(135deg, #8fff69, #42ed32);
+    color: #ffffff;
+    font-weight: 700;
+    border: none;
+    border-radius: 999px;
+    padding: 8px 18px;
+    box-shadow: 0 6px 16px rgba(78, 237, 50, 0.25);
+    cursor: pointer;
+}
+
+.popup .popup-content .controls .save-btn:active{
+    transform: translateY(1px);
+}
+
+.login-links{
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    align-items: center;
+    font-family: "Indie Flower", cursive;
+    font-size: 0.95rem;
+    flex-wrap: wrap;
+}
+
+.login-links .login-link{
+    color: var(--plink);
+    text-decoration: underline;
+}
+
+.popup.active{
+    top: 0px;
+    transition: top 0ms ease-in-out 0ms;
+}
+
+.popup.active .overlay{
+    opacity: 1;
+    transition: all 300ms ease-in-out;
+}
+
+.popup.active .popup-content{
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}

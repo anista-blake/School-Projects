@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balance Bloom | Start your wellness journey</title>
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/popup.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Indie+Flower&family=Lobster&family=Ole&family=Outfit:wght@100..900&family=Pacifico&family=Rowdies:wght@300;400;700&family=Signika:wght@300..700&display=swap');
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-top">
+
+        <img class="login-logo" src="/static/img/login-logo.png" alt="Logo">
+        </div>
+        <div class="login-bottom">
+            <h1 class="login-title">Welcome back Bloomer!</h1>
+            <p class="login-subtitle">
+                Log In and continue your <strong> WELLNESS </strong> journey!
+            </p>
+            <form action="./login" method="post">
+                <div>
+                    <label for="inputEmail" class="login-label">Email Address</label>
+                    <input id="inputEmail" name="email"
+                            type="email" class="login-input" required
+                            oninvalid="this.setCustomValidity('Please enter a valid email address.')"
+                            oninput="this.setCustomValidity('')">
+                </div>
+                <div>
+                    <label for="inputPassword" class="login-label">Password</label>
+                    <input id="inputPassword" name="password"
+                            type="password" class="login-input" required
+                            oninvalid="this.setCustomValidity('Please enter a valid password.')"
+                            oninput="this.setCustomValidity('')">
+                </div>
+                <div>
+                    <button type="submit" class="login-button">Log In</button>
+                </div>
+            </form>
+            <p class="login-desc">
+                Forgot your password? <a class="login-link" href="#" data-open="forgotPasswordPopup"> Reset password. </a>
+            </p>
+            <p class="login-desc">
+                Forgot your email? <a class="login-link" href="#" data-open="forgotEmailPopup"> Recover email. </a>
+            </p>
+            <p class="login-desc">
+                Don't have an account? <a class="login-link" href="./sign-up"> Sign up. </a>
+            </p>
+        </div>
+    </div>
+
+    <div class="popup" id="forgotPasswordPopup" aria-hidden="true">
+        <div class="overlay"></div>
+        <div class="popup-content login-card" role="dialog" aria-modal="true" aria-labelledby="fpwTitle">
+            <div class="login-brand">
+                <img class="login-brand__logo" src="/static/img/login-logo.png" alt="Balance Bloom">
+                <h2 class="login-brand__title" id="fpwTitle">Reset your password</h2>
+            </div>
+            <div class="login-body">
+                <form id="fpwForm">
+                    <label class="login-label" for="fpwEmail">Email address</label>
+                    <input class="login-input" id="fpwEmail" name="email" type="email" required
+                    oninvalid="this.setCustomValidity('Please enter your account email address.')"
+                    oninput="this.setCustomValidity('')">
+
+                    <div class="login-links" id="fpwMsg" hidden></div>
+                    <div class="controls">
+                        <button type="submit" class="save-btn">Send reset link</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+        <div class="popup" id="forgotEmailPopup" aria-hidden="true">
+      <div class="overlay"></div>
+      <div class="popup-content login-card" role="dialog" aria-modal="true" aria-labelledby="feTitle">
+          <div class="login-brand">
+              <img class="login-brand__logo" src="{{ url_for('static', filename='img/login-logo.png') }}" alt="Balance Bloom">
+              <h2 class="login-brand__title" id="feTitle">Recover your email</h2>
+              <p class="login-brand__subtitle">Enter your <strong>recovery email</strong> and recieve the main email associated with that account.
+                  </p>
+          </div>
+          <div class="login-body">
+              <form id="feForm" onsubmit="return false;">
+                  <label class="login-label" for="feEmail">Recovery Email</label>
+                  <input class="login-input" id="feEmail" name="email" type="email" required
+                  oninvalid="this.setCustomValidity('Please enter your recovery email.')"
+                  oninput="this.setCustomValidity('')">
+
+                  <div class="login-links" id="feMsg" hidden></div>
+                  <div class="controls">
+                      <button type="submit" class="save-btn">Send recovery email</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+
+</body>
+</html>
+
+<script src="/static/js/popup.js" defer></script>
+<script src="/static/js/reset.js" defer></script>
+<script src="/static/js/recover_email.js" defer></script>

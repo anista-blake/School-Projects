@@ -1,0 +1,23 @@
+{# templates/recipe.html #}
+{% extends 'layout.html' %}
+
+{% block title %}🔎 Recipe Recommendations{% endblock %}
+
+{% block head %}
+  {{ super() }}
+
+  <link
+      href="{{ url_for('serve_react', path='assets/css/main.a31ba873.css') }}"
+      rel="stylesheet"
+    />
+
+  <script
+      defer
+      src="{{ url_for('serve_react', path='assets/js/main.b843b1e2.js') }}"
+    ></script>
+
+{% endblock %}
+
+{% block content %}
+  <div id="root"></div>
+{% endblock %}

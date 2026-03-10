@@ -1,0 +1,224 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/account.css') }}">
+
+<main class="account-page">
+
+    <h1 class="account-title">Account</h1>
+
+    <section class="account-profile">
+        <div class="avatar avatar--xl">
+        <img
+            id="avatarImg"
+            src="{{ (user.avatar_url or url_for('static', filename='img/account-placeholder-image.png')) }}?v={{ user.get('avatar_version', 0) }}"
+            data-fallback="{{ url_for('static', filename='img/account-placeholder-image.png') }}"
+            alt="Profile picture"
+            onerror="this.onerror=null; this.src=this.dataset.fallback;">
+        </div>
+
+        <button class="avatar-action" type="button" aria-label="Edit" data-open="modalAvatar">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92 2.33H5v-.92l9.06-9.06.92.92-9.06 9.06zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0L15.13 4.7l3.75 3.75 1.83-1.41z"/>
+            </svg>
+        </button>
+
+        <h2 class="display-name">{{ user.display_name or user.first_name }}</h2>
+    </section>
+
+    <div class="popup" id="modalAvatar" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="popup-content">
+    <h2-account>Upload profile image</h2-account>
+
+        <form action="{{ url_for('account.account_update_avatar') }}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+            <div class="avatar-upload">
+            <div class="avatar-preview" id="avatarPreview">
+                <img id="avatarPreviewImg" class="hidden" alt="">
+            </div>
+
+            <label for="avatarFile" class="custom-file-label">Choose image</label>
+            <input id="avatarFile" name="avatar" type="file" accept="image/*" hidden>
+            
+            </div>
+
+            <div class="controls">
+                <button type="button" class="cancel-btn">Cancel</button>
+                <button type="submit" class="save-btn">Save</button>
+            </div>
+        </form>
+    </div>
+    </div>
+
+    <nav class="account-actions">
+        <button class="action-btn" data-open="modalProfile" type="button">Personal info</button>
+        <button class="action-btn" data-open="modalSecurity" type="button">Security</button>
+    </nav>
+
+    <div class="secondary-actions">
+        <form action="{{ url_for('account.account_logout') }}" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <button type="submit" class="btn-plain">Log out</button>
+        </form>
+
+        <form action="{{ url_for('account.account_deactivate') }}" method="post"
+            onsubmit="return confirm('Deactivate your account? This will sign you out.');">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <button type="submit" class="btn-danger">Deactivate account</button>
+        </form>
+    </div>
+
+    <footer class="account-bottomline account-meta --footer">
+        <span>Member since 
+            <span data-utc="{{ member_since.isoformat() if member_since else '' }}"
+                  data-format="medium">
+                {{ member_since.strftime("%b %d, %Y") if member_since else '' }}
+            </span>
+        </span>
+        <span class="dot">•</span>
+        <span>Last seen 
+            <span id="last-seen-updater"
+                  data-utc="{{ last_seen.isoformat() if last_seen else '' }}"
+                  data-format="medium">
+                {{ last_seen.strftime("%b %d, %Y") if last_seen else '' }}
+            </span>
+        </span>
+    </footer>
+
+</main>
+
+<div class="popup" id="modalProfile" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="popup-content">
+        <h2-account>Personal info</h2-account>
+        <form action="{{ url_for('account.account_update_profile') }}" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        
+        <div class="field">
+            <label for="email-address-profile">Email Address</label>
+            <input id="email-address-profile" name="email" type="email" value="{{ user.email or '' }}" readonly>
+        </div>
+
+        <div class="field">
+            <label for="display_name_profile">Display name</label>
+            <input id="display_name_profile" name="display_name" type="text"
+                value="{{ user.display_name or '' }}" required
+                maxlength="20">
+        </div>
+        
+        <div class="field">
+            <label for="bio_profile">Bio</label>
+            <input id="bio_profile" name="bio" type="text" value="{{ user.bio or '' }}"
+            maxlength="150">
+        </div>
+        
+        <div class="controls">
+            <button type="button" class="cancel-btn">Cancel</button>
+            <button type="submit" class="save-btn">Save</button>
+        </div>
+        </form>
+    </div>
+</div>
+
+<div class="popup" id="modalSecurity" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="popup-content">
+        <h2-account>Security</h2-account>
+        <form action="{{ url_for('account.account_update_password') }}" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        
+        <div class="field">
+            <label for="recovery_email">Recovery Email</label>
+
+            <input
+                id="recovery_email"
+                name="recovery_email"
+                type="email"
+                value="{{ user.recovery_email or '' }}"
+                {% if user.recovery_email %} readonly {% endif %}
+                data-verified="{{ '1' if user.recovery_email_verified_at else '0' }}"
+                data-pending="{{ user.recovery_email_pending or '' }}"
+            />
+
+            <button id="send-verification" class="verify-btn" type="button">
+                {{ 'Change' if user.recovery_email else 'Verify' }}
+            </button>
+
+            <span id="recovery-verified-badge"
+                    class="{{ 'visible-inline' if user.recovery_email_verified_at else 'hidden-inline' }}"
+                    style="margin-left:8px; color:green; font-weight:700;">
+                Verified ✓
+            </span>
+        </div>
+
+        <div id="verifyMsg" role="status" aria-live="polite" style="display:none; margin-top:6px; color:#666666;"></div>
+
+        <div class="field">
+            <label for="current_password">Current password</label>
+            <input id="current_password" name="current_password" type="password" required>
+        </div>
+
+        <div class="field">
+            <label for="new_password">New password</label>
+            <input id="new_password" name="new_password" type="password" pattern="[A-Za-z0-9_.@]*" required
+            minlength="8"
+          
+            oninvalid="
+            if (this.validity.valueMissing) {
+                this.setCustomValidity('Please enter a password.');
+            } else if (this.validity.tooShort) {
+                this.setCustomValidity('Password must be at least 8 characters.');
+            } else if (this.validity.patternMismatch) {
+                this.setCustomValidity('Password may only contain letters, numbers, and special characters (underscore, period, at symbol)')
+            }"
+
+            oninput="this.setCustomValidity('')">
+
+        </div>
+
+        <div class="field">
+            <label for="confirm_password">Confirm new password</label>
+            <input id="confirm_password" name="confirm_password" type="password" pattern="[A-Za-z0-9_.@]*" required
+            minlength="8"
+            oninvalid="this.setCustomValidity('Passwords do not match.')"
+            oninput="this.setCustomValidity('')">
+        </div>
+
+        <div class="controls">
+            <button type="button" class="cancel-btn">Cancel</button>
+            <button type="submit" class="save-btn">Update</button>
+        </div>
+        </form>
+    </div>
+</div>
+
+<div class="popup" id="modalVerifyCode" aria-hidden="true">
+    <div class="overlay"></div>
+    <div class="popup-content">
+        <h2>Enter verification code</h2>
+
+        <form id="verifyCodeForm" onsubmit="return false;">
+        <div class="field">
+            <label for="verification_code">Code</label>
+            <input id="verification_code" name="verification_code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" />
+        </div>
+
+        <div class="controls">
+            <button type="button" class="cancel-btn" id="verify-code-cancel">Cancel</button>
+            <button type="button" class="save-btn" id="verify-code-submit">Verify</button>
+        </div>
+
+        <div id="verifyCodeMsg" role="status" aria-live="polite" style="display:none;margin-top:8px;color:#b00020;"></div>
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/popup.css') }}">
+<script defer src="{{ url_for('static', filename='js/popup.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/recovery.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/account.js') }}"></script>
+
+{% endblock %}

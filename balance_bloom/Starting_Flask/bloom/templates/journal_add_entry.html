@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}Mood Journal{% endblock %}
+{% block head %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/journal_add_entry.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/popup.css') }}">
+    <script defer src="{{ url_for('static', filename='js/mood_entry.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/char_count.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1 class="page_title">Mood Journal</h1>
+</header>
+<div class="container">
+    <div class="entry-form">
+        <form method="POST">
+            <div id="entry-title">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" placeholder="Entry title..." value = "{{ entry_title }}" maxlength="100" required>
+                <small id="titleCount" class="char-counter">0 / 100</small>
+            </div>
+
+            <div id="entry-mood">
+                <label for="emotions">Select Your Mood:</label>
+                <input type="hidden" name="mood" id="mood-input" value="{{ entry_mood or '' }}">
+                <div class="emotions" id="emotions">
+                    <button type="button" class="mood-selection" data-mood="great">
+                        <img src="/static/img/emotion1.png" alt="Great" style="width: 128px;height: 128px;">
+                    </button>
+                    <button type="button" class="mood-selection" data-mood="alright">
+                        <img src="/static/img/emotion2.png" alt="Alright" style="width: 128px;height: 128px;">
+                    </button>
+                    <button type="button" class="mood-selection" data-mood="ok">
+                        <img src="/static/img/emotion3.png" alt="OK" style="width: 128px;height: 128px;">
+                    </button>
+                    <button type="button" class="mood-selection" data-mood="not_great">
+                        <img src="/static/img/emotion4.png" alt="Not Great" style="width: 128px;height: 128px;">
+                    </button>
+                    <button type="button" class="mood-selection" data-mood="bad">
+                        <img src="/static/img/emotion5.png" alt="Bad" style="width: 128px;height: 128px;">
+                    </button>
+                </div>
+            </div>
+
+            <div id="entry-content">
+                <label for="content">Entry:</label>
+                <textarea id="content" name="content" placeholder="Write your entry..." maxlength="500">{{ entry_content }}</textarea>
+                <small id="contentCount" class="char-counter">0 / 500</small>
+            </div>
+
+        <div class ="button-container">
+                <button type="submit" class ="button" id="add-entry-btn" name="action" value="save">Save</button> 
+                <button type="submit" class ="button" id="cancel-btn" name="action" value="cancel">Cancel</button>
+        
+        </form>
+        {% if show_button %}
+            <form action="{{ url_for('journal.delete_entry') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this entry?');">
+                <button type="submit" class="button" id="delete">Delete</button>
+            </form>
+        {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

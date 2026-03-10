@@ -1,0 +1,234 @@
+/* General Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Page Setup */
+.journal-page {
+  padding: 40px 20px;
+  background-color: var(--bg);
+  color: var(--otherText);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+}
+
+.journal-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Header */
+.journal-page header {
+  display: flex;
+  background-color: var(--navbg);
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.journal-page header h1 {
+  font-size: 2rem;
+  margin: 10px;
+  color:#ffffff;
+}
+
+.button {
+  text-decoration: none;
+  background-color: var(--card-border);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: var(--click);
+}
+
+.btns {
+  display: flex; 
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+/* Latest Entry Styling */
+.latest-entry {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--mbg);
+  color: var(--text);
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  border: 2px solid var(--latest-accent, transparent);
+  box-shadow: 0 2px 8px var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Mood-specific mappings (adjust image paths and colors) */
+.latest-entry[data-mood="great"] {
+  --mbg: var(--mood-great-bg);
+  --latest-accent: var(--mood-great-accent);
+  --shadow: var(--mood-great-shadow);
+}
+
+
+.latest-entry[data-mood="alright"] {
+  --mbg: var(--mood-alright-bg);
+  --latest-accent: var(--mood-alright-accent);
+  --shadow: var(--mood-alright-shadow);
+}
+
+.latest-entry[data-mood="ok"] {
+  --mbg: var(--mood-ok-bg);
+  --latest-accent: var(--mood-ok-accent);
+  --shadow: var(--mood-ok-shadow);
+}
+
+.latest-entry[data-mood="not_great"] {
+  --mbg: var(--mood-not-great-bg);
+  --latest-accent: var(--mood-not-great-accent);
+  --shadow: var(--mood-not-great-shadow);
+}
+
+.latest-entry[data-mood="bad"] {
+  --mbg: var(--mood-bad-bg);
+  --latest-accent: var(--mood-bad-accent);
+  --shadow: var(--mood-bad-shadow);
+}
+
+.PE-format{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.current-date {
+  text-align: center;
+  color: var(--text);
+  font-weight: normal;
+  margin-bottom: 1.5rem;
+}
+
+.selected-mood{ 
+  float: right;
+  margin-left: auto;
+}
+
+.current-content{
+  background-color: var(--bg);
+  border: 2px solid var(--latest-accent);
+  border-radius: 10px;           
+  padding: 1.5rem;
+  max-width: 1000px;              
+  width: 100%;                   
+  text-align: left;
+}
+
+/* Collapsible Entries */
+.collapsible {
+  cursor: pointer;
+  background-color: var(--bg);
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  user-select: none;
+  box-shadow: 0 1px 3px var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  color: var(--otherText);
+}
+
+.collapsible:hover,
+.collapsible.active {
+  background-color: var(--journalbg);
+}
+
+.collapsible small {
+  color: var(--otherText);
+  font-weight: normal;
+}
+
+/* Past entry cards */
+.entry-card {
+  display: flex;
+  justify-content: space-between;
+  background: var(--jour-pst-entrybg);
+  border: 1px solid var(--bg);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.entry-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px var(--jour-pst-entry-shadow);
+}
+
+/* Past entry title */
+.entry-title {
+  margin: 0 0 8px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.end-content{
+  display:flex;
+  justify-content: end;
+}
+
+/* Past entry mood */
+.entry-card-mood-icon {
+  width: 60px;
+  height: 60px;
+}
+
+/* Past entry Date */
+.entry-date {
+  color: var(--otherText);
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+/* Filtering */
+.filter-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+/* Hidden content */
+.content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background: var(--bg);
+  padding: 0 15px;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 1px 3px var(--shadow);
+  margin-bottom: 15px;
+}
+
+.content p {
+  margin: 15px 0;
+}
+
+@media (max-width: 600px) {
+  .new-entry-button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+    .journal-page header h1 {
+        font-size: 1.5rem;
+    }
+}

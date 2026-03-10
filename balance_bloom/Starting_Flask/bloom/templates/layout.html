@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Balance Bloom</title>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/popup.css') }}">
+  </head>
+  <body data-accent-color="{{ user.get('pref_accent_color', 'pink') if user else 'pink' }}"
+        data-font-size="{{ user.get('pref_font_size', 'large') if user else 'large' }}">
+
+  {% block head %}{% endblock %}
+  <header class="site-header{% if user %} has-avatar{% endif %}">
+    <div class="container">
+      <h1 class="logo">Balance Bloom</h1>
+      <nav>
+        <ul class="menu">
+          <li><a href="{{ url_for('main.home') }}">Home</a></li>
+
+          <button id="moreOptions"
+                class="nav__options"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-controls="moreMenu"
+                aria-label="More options">☰</button>
+
+          <div id="moreMenu" class="nav__menu" role="menu">
+          <a role="menuitem" href="{{ url_for('main.about') }}">About</a>
+          <a role="menuitem" href="{{ url_for('main.faq') }}">FAQ</a>
+          {% if user.track_period_data %}
+          <a role="menuitem" href="{{ url_for('cycle.cycle') }}">Cycle Tracker</a>
+          {% endif %}
+          <a href="{{ url_for('journal.journal') }}">Mood Journal</a>
+          <a href="/recipe" class="btn">🍴 Open Recipe App</a>
+          <a role="menuitem" href="{{ url_for('settings.settings') }}">Settings</a>
+          
+          {% if user %}
+            <a href="#" class="nav-link" data-logout role="menuitem">Log out</a>
+            <form id="logoutForm" action="{{ url_for('account.account_logout') }}" method="post" hidden>
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            </form>
+          {% else %}
+            <a role="menuitem" href="{{ url_for('auth.login') }}"
+              data-open="loginPopup">Log In</a>
+          {% endif %}
+          
+        </div>
+        </ul>
+      </nav>
+
+      {% if user %}
+        <a href="{{ url_for('account.account') }}" class="header-avatar" aria-label="Account">
+          <img src="{{ avatar_url_header }}"
+           data-fallback="{{ url_for('static', filename='img/account-placeholder-image.png') }}"
+           alt="Account"
+           onerror="this.onerror=null; this.src=this.dataset.fallback;"
+           width="36" height="36" loading="lazy">
+        </a>
+      {% endif %}
+
+    </div>
+  </header>
+
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+    <div id="loginPopup" class="popup" aria-hidden="true">
+      <div class="overlay" data-close></div>
+
+      <div class="popup-content login-card" role="dialog" aria-labelledby="loginPopupTitle" aria-modal="true">
+        
+        <div class="login-brand">
+          <img
+            src="{{ url_for('static', filename='img/login-logo.png') }}"
+            alt="Balance Bloom"
+            class="login-brand__logo">
+          <h2 id="loginPopupTitle" class="login-brand__title">Welcome back Bloomer!</h2>
+          <p class="login-brand__subtitle">
+            Log In and continue your <strong>WELLNESS</strong> journey!
+          </p>
+        </div>
+
+        <div class="login-body">
+          <form class="login-form" action="{{ url_for('auth.login') }}" method="post" novalidate>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+            <div class="field">
+              <label for="popupEmail" class="login-label">Email Address</label>
+              <input id="popupEmail" type="email" name="email" class="login-input" required>
+            </div>
+
+            <div class="field">
+              <label for="popupPassword" class="login-label">Password</label>
+              <input id="popupPassword" type="password" name="password" class="login-input" required>
+            </div>
+
+            <div class="controls">
+              <button type="button" class="cancel-btn" data-close>Cancel</button>
+              <button type="submit" class="save-btn">Log in</button>
+            </div>
+
+            <div class="login-links">
+              <a class="login-link" href="{{ url_for('auth.signup') }}">Create account</a>
+              <span>|</span>
+              <a class="login-link" href="#" data-open="forgotPasswordPopup">Forgot password?</a>
+              <span>|</span>
+              <a class="login-link" href="#" data-open="forgotEmailPopup">Forgot email?</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="popup" id="forgotPasswordPopup" aria-hidden="true">
+        <div class="overlay"></div>
+        <div class="popup-content login-card" role="dialog" aria-modal="true" aria-labelledby="fpwTitle">
+            <div class="login-brand">
+                <img class="login-brand__logo" src="/static/img/login-logo.png" alt="Balance Bloom">
+                <h2 class="login-brand__title" id="fpwTitle">Reset your password</h2>
+            </div>
+            <div class="login-body">
+                <form id="fpwForm">
+                    <label class="login-label" for="fpwEmail">Email address</label>
+                    <input class="login-input" id="fpwEmail" name="email" type="email" required
+                    oninvalid="this.setCustomValidity('Please enter your account email address.')"
+                    oninput="this.setCustomValidity('')">
+
+                    <div class="login-links" id="fpwMsg" hidden></div>
+                    <div class="controls">
+                        <button type="submit" class="save-btn">Send reset link</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" id="forgotEmailPopup" aria-hidden="true">
+      <div class="overlay"></div>
+      <div class="popup-content login-card" role="dialog" aria-modal="true" aria-labelledby="feTitle">
+          <div class="login-brand">
+              <img class="login-brand__logo" src="{{ url_for('static', filename='img/login-logo.png') }}" alt="Balance Bloom">
+              <h2 class="login-brand__title" id="feTitle">Recover your email</h2>
+              <p class="login-brand__subtitle">Enter your <strong>recovery email</strong> and recieve the main email associated with that account.
+                  </p>
+          </div>
+          <div class="login-body">
+              <form id="feForm" onsubmit="return false;">
+                  <label class="login-label" for="feEmail">Recovery Email</label>
+                  <input class="login-input" id="feEmail" name="email" type="email" required
+                  oninvalid="this.setCustomValidity('Please enter your recovery email.')"
+                  oninput="this.setCustomValidity('')">
+
+                  <div class="login-links" id="feMsg" hidden></div>
+                  <div class="controls">
+                      <button type="submit" class="save-btn">Send recovery email</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+
+    <script defer src="{{ url_for('static', filename='js/nav.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/timezone.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/appearance.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/popup.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/reset.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/recover_email.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/flower_fall.js') }}"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

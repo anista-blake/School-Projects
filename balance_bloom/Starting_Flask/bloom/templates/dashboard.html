@@ -1,0 +1,109 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="dashboard-container">
+    <h1 class="welcome">Welcome back, {{ user.display_name or user.first_name }}! 🌸</h1>
+</div>
+
+{% if todays_entry %}
+
+<div class="journal-box">
+    
+    <p class="section-label">Today's Current Journal Entry:</p>
+    <p class="timestamp">
+        {{ todays_entry["created_at"].strftime("%A, %B %d, %Y  🌷") }}
+    </p>
+
+    <div class="journal-content">
+
+        <!-- Mood icon -->
+        <div class="selected-mood mood-{{ (todays_entry.get('mood') or current_mood or 'unknown')|replace(' ', '_') }}">
+            <img class="entry-mood"
+                 src="{{ url_for('static', filename='img/' + (mood_filename or 'emotionDefault.png')) }}"
+                 alt="{{ todays_entry.get('mood') or current_mood }}"
+                 title="{{ todays_entry.get('mood') or current_mood }}"
+                 width="128" height="128">
+        </div>
+
+        <!-- Title -->
+        <div class="journal-title-section">
+            <h2 class="journal-title">{{ todays_entry["title"] }}</h2>
+        </div>
+
+        <!-- Divider -->
+        <hr class="journal-divider">
+
+        <!-- Content -->
+        <div class="journal-text-section">
+            <p class="journal-text">{{ todays_entry["content"] }}</p>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="no-entry-container">
+    <p class="no-entry">You currently have no journal entry for today yet..</p>
+    <a href="/journal" class="cute-link" aria-label="Write a journal entry">
+        WRITE ONE NOW! 😊
+    </a>
+</div>
+{% endif %}
+
+{% if recent_favorites %}
+
+<div class="favorites-section">
+    <h2 class="favorite-title">Your Recent Favorite Entries 🍓:</h2>
+    
+    <div class="favorites-grid">
+        {% for entry in recent_favorites %}
+        <div class="recipe-container">
+            <img class="recipe-image" src="{{ entry.image }}" alt="{{ entry.title}}">
+                
+            <p class="recipe-name">{{ entry.title }}</p>
+                <a class="recipe-link" href="{{ entry.sourceUrl }}" target="_blank" rel="noopener noreferrer">
+                    View Recipe →
+                </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% else %}
+<div class="no-favorites-container"></div>
+    <p class="no-favorites">You have no favorite recipes yet 💕</p>
+{% endif %}
+
+{% if user and (user.get('track_period_data') or show_cycle) %}
+<div class="dashboard-grid">
+  <aside class="dashboard-sidebar">
+    <div class="ct-outer ct-compact">  {# ct-outer must wrap the calendar fragment; ct-compact enables compact styling #}
+      {% include "_cycle_calendar.html" %}
+    </div>
+  </aside>
+</div>
+
+<div class="cycle-recipe-section">
+    <h2 class="cycle-recipe-title">Recipes Tailored to Your Cycle 🍒:</h2>
+    <h3 class="cycle-recipe-subtitle">Based on your current cycle phase above, click below to see recommendations!</h3>
+    <div class="cycle-recipe-buttons">
+        <button class="cycle-recipe-button" data-phase="menstrual">Menstrual Phase</button>
+        <button class="cycle-recipe-button" data-phase="follicular">Follicular Phase</button>
+        <button class="cycle-recipe-button" data-phase="ovulatory">Ovulatory Phase</button>
+        <button class="cycle-recipe-button" data-phase="luteal">Luteal Phase</button>
+    </div>
+    <div id="cycle-recipes-display" class="cycle-recipes-grid"></div>
+    <h4 class="cycle-recipe-ultra-subtitle">For more recipes, go to our designated recipe page 😊</h4>
+</div>
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ct_stylesheet.css') }}">
+<script>window.CYCLE_ENTRY_API = "{{ url_for('cycle.cycle_entry') }}";</script> 
+<script defer src="https://kit.fontawesome.com/0e1f7d564f.js" crossorigin="anonymous"></script>
+<script type="module" defer src="{{ url_for('static', filename='js/ct_ui.js') }}"></script>
+{% endif %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<script defer src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/cycle_recipes.js') }}"></script>
+
+{% endblock %}

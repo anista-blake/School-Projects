@@ -1,0 +1,225 @@
+body{
+    background-color: var(--bg);
+}
+
+.account-page{
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 28px 16px 64px;
+}
+
+.account-title{
+    text-align:center;
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-size: clamp(28px, 4vw, 44px);
+    margin: 8px 0 18px;
+    color: var(--text);
+}
+
+.account-profile{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap: 12px;
+    margin-bottom: 18px;
+    position: relative;
+}
+
+.avatar{
+    border-radius:999px;
+    display:grid;
+    place-items:center;
+    background:#ffffff;
+    border:4px solid var(--card-border);
+    box-shadow: 0 0 15px var(--shadow);
+    overflow:hidden;
+}
+
+.avatar--xl{
+    width:140px;
+    height:140px;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.avatar-upload{
+    text-align:center;
+    margin-bottom: 12px;
+}
+
+.avatar-preview{
+    width: 150px;
+    height: 150px;
+    border-radius: 999px;
+    margin: 0 auto 12px;
+    border: 2px dashed var(--card-border);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.avatar-preview img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.custom-file-label{
+    display:inline-block;
+    padding:10px 16px;
+    background: var(--card);
+    color: var(--text);
+    border:2px solid var(--card-border);
+    border-radius:10px;
+    font-weight:700;
+    cursor:pointer;
+    transition: filter .15s ease;
+}
+
+.custom-file-label:hover{
+    filter: brightness(1.05);
+}
+
+.hidden{
+    display:none;
+}
+
+.avatar-action{
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    left: 526px;
+    bottom: 64px;
+    border-radius: 999px;
+    border: 2px solid #00000092;
+    background: var(--card-border);
+    opacity: 0.85;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.avatar-action .icon{
+    width: 18px; 
+    height: 18px;
+    fill: var(--text);
+}
+
+.avatar-action:hover{
+    filter: brightness(1.05);
+}
+
+.avatar-action:active{
+    transform: scale(0.98);
+}
+
+.avatar-action svg path {
+    fill: #ffffff;
+    stroke: #000000;
+    stroke-width: 0.8;
+}
+
+.avatar-action:focus-visible{
+    outline: 3px solid var(--click);
+    outline-offset: 2px;
+}
+
+.display-name{
+    font-family: "Indie Flower", cursive;
+    font-size: clamp(22px, 3.2vw, 36px);
+    margin: 0;
+    color: var(--text);
+}
+
+.account-actions{
+    display:flex;
+    justify-content:center;
+    gap:16px;
+    margin: 10px 0 22px;
+}
+
+.action-btn{
+    border:2px solid var(--card-border);
+    background:transparent;
+    color:var(--card-border);
+    padding:10px 16px;
+    font-weight:700;
+    border-radius:20px;
+    cursor:pointer;
+    transition: all .15s ease, color .15s ease, transform .05s ease;
+}
+
+.action-btn:hover{
+    background:var(--card);
+    color:var(--text);
+}
+
+.action-btn:active{
+    transform: translateY(1px);
+}
+
+.secondary-actions{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin: 6px 0 28px;
+}
+
+.btn-plain{
+    border:none;
+    background:transparent;
+    color: var(--otherText);
+    font-weight:700;
+    cursor:pointer;
+}
+
+.btn-plain:hover{
+    text-decoration:underline;
+}
+
+.btn-danger{
+    background:#c7362e;
+    color:#fff;
+    border:none;
+    padding:10px 16px;
+    border-radius:8px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.btn-danger:hover{
+    filter: brightness(0.95);
+    background:rgb(158, 12, 4);
+}
+
+.account-bottomline{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    color: var(--otherText);
+    font-size: clamp(14px, 1.8vw, 20px);
+}
+
+.account-bottomline .dot{
+    opacity:.6;
+}
+
+@media (min-width: 2000px){
+
+    .popup .popup-content{
+        --design-w: 960;
+    }
+    
+}

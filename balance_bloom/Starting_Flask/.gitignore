@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py[cod]
+
+# Virtual envs
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Secrets
+.env
+.venv
+
+# Node / builds
+node_modules/
+dist/
+target/
+
+# Logs
+*.log
+TEST*.xml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Binaries / apps
+*.app
+*.exe
+*.war
+*.jar
+
+# Media (optional—only if you never want these in git)
+*.mp4
+*.tiff
+*.avi
+*.flv
+*.mov
+*.wmv

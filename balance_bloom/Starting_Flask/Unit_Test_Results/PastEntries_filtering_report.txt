@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: FilteringEntries: filters by mood correctly
+ok 1 - FilteringEntries: filters by mood correctly
+  ---
+  duration_ms: 36.138833
+  type: 'test'
+  ...
+# Subtest: FilteringEntries: filters by date range
+ok 2 - FilteringEntries: filters by date range
+  ---
+  duration_ms: 5.124417
+  type: 'test'
+  ...
+# Subtest: FilteringEntries: applies mood AND date filters together
+ok 3 - FilteringEntries: applies mood AND date filters together
+  ---
+  duration_ms: 3.306417
+  type: 'test'
+  ...
+# Subtest: FilteringEntries: clear button resets controls and shows everything
+ok 4 - FilteringEntries: clear button resets controls and shows everything
+  ---
+  duration_ms: 3.075458
+  type: 'test'
+  ...
+# Subtest: FilteringEntries: malformed date does NOT crash and hides no cards
+ok 5 - FilteringEntries: malformed date does NOT crash and hides no cards
+  ---
+  duration_ms: 4.173584
+  type: 'test'
+  ...
+# Subtest: FilteringEntries: missing required DOM elements causes graceful return
+ok 6 - FilteringEntries: missing required DOM elements causes graceful return
+  ---
+  duration_ms: 3.672917
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 365.826541

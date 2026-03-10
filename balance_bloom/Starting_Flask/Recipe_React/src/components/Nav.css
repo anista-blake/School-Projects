@@ -1,0 +1,209 @@
+/* ==========================
+   Root Variables (Light Mode)
+=========================== */
+:root {
+    --navbg: #c9356c;
+    --navhl: #f48db4;
+    --nav-text:#ffffff;
+
+    --menu-bg: #ffffff;
+    --menu-text:#333333;
+
+    --nav-hover: rgba(0,0,0,.06);
+    --bg: #ffffff;
+    --shadow: rgba(0,0,0,0.2);
+}
+
+/* ==========================
+   Dark Mode Variables
+=========================== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --navbg: #ac2858;
+        --navhl: #f48db4;
+        --nav-text: #eeeeee;
+
+        --menu-bg: #353535;
+        --menu-text: #ffffff;
+
+        --nav-hover: rgba(255,255,255,.12);
+        --bg: #292929;
+        --shadow: rgba(0,0,0,.6);
+    }
+}
+
+/* ==========================
+   Header Styles
+=========================== */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+    background-color: var(--navbg);
+    color: var(--nav-text);
+    box-shadow: 0 2px 6px var(--shadow);
+}
+
+.site-header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.site-header.has-avatar .container {
+    padding-right: 40px;
+}
+
+.site-header.has-avatar .nav__options {
+    margin-right: 40px;
+}
+
+header h1.logo:hover {
+    color: var(--navhl);
+}
+
+/* Avatar */
+.header-avatar {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 2px solid rgba(255, 105, 180, 0.5);
+    text-decoration: none;
+}
+
+.header-avatar img {
+    all: unset;
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+}
+
+/* Logo */
+.logo {
+    margin: 0;
+    font-size: clamp(1.3rem, 2.8vw, 2.4rem);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+/* Nav Menu */
+.site-header nav {
+    position: relative;
+    margin-left: auto;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu > li > a {
+    color: var(--nav-text);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 1.05rem;
+    transition: background 0.3s ease;
+}
+
+.menu > li > a:hover {
+    background: var(--nav-hover);
+}
+
+/* Nav Options (hamburger / menu buttons) */
+.nav__options {
+    border: 0;
+    background: transparent;
+    color: var(--nav-text);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.nav__options:hover,
+.nav__options[aria-expanded="true"] {
+    background: var(--nav-hover);
+}
+
+/* Dropdown Menu */
+.nav__menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    min-width: 220px;
+    background: var(--menu-bg);
+    color: var(--menu-text);
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+    transition: all 0.3s ease;
+    z-index: 20000;   /* higher than header */
+}
+
+.nav__menu.open {
+    display: block;
+}
+
+.nav__menu a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: var(--menu-text,);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+.nav__menu a:hover {
+    background: var(--nav-hover);
+}
+
+/* Make Log In and Log Out look identical */
+.menu-auth-btn {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    background: transparent;
+    color: var(--menu-text);
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+/* Hover effect same as links */
+.menu-auth-btn:hover {
+    background: var(--nav-hover);
+}
+
+/* Make button behave visually like link */
+.menu-auth-btn:active,
+.menu-auth-btn:focus {
+    outline: none;
+    background: var(--nav-hover);
+}
