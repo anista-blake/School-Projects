@@ -1,0 +1,7 @@
+[
+  "Starting_Flask/tests/journal_test/test_journal_logic.py::TestJournalLogic::test_create_entry_content_too_long",
+  "Starting_Flask/tests/journal_test/test_journal_logic.py::TestJournalLogic::test_create_entry_duplicate_raises",
+  "Starting_Flask/tests/journal_test/test_journal_logic.py::TestJournalLogic::test_create_entry_success",
+  "Starting_Flask/tests/journal_test/test_journal_logic.py::TestJournalLogic::test_create_entry_title_too_long",
+  "Starting_Flask/tests/journal_test/test_journal_logic.py::TestJournalLogic::test_delete_daily_entry_calls_db"
+]
